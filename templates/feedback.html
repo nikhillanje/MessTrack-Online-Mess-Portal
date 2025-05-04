@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - MessTrack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='feedback.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Feedback Form</h1>
+        <p>Your responses will help us improve our service.</p>
+
+        {% if success %}
+        <p class="success">feedback is Not Send !</p>
+        {% endif %}
+
+        <form action="/feedback" method="POST">
+
+            <!-- Name Field -->
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <!-- Email Field -->
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <!-- Feedback Message -->
+            <label for="feedback">Feedback:</label>
+            <textarea id="feedback" name="feedback" rows="5" required></textarea>
+
+            <!-- Suggestions for Improvement -->
+            <label for="suggestion">Suggestions for Improvement:</label>
+            <textarea id="suggestion" name="suggestion" rows="4"></textarea>
+
+            <!-- Submit Button -->
+            <button type="submit">Submit Feedback</button>
+        </form>
+
+    </div>
+</body>
+
+</html>
