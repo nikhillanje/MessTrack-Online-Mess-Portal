@@ -1,0 +1,210 @@
+/* General Body Styling */
+body {
+    background: linear-gradient(135deg, #ae91db, #ab9c9c);
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-y: auto;
+}
+
+/* Registration Card Styling */
+.registration-form {
+    background-color: #e8e0e0;
+    padding: 40px 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Heading Styling */
+.registration-form h2 {
+    font-size: 24px;
+    color: #34568B;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* Label Styling */
+.registration-form label {
+    display: block;
+    text-align: left;
+    margin-top: 12px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Form Row Styling (Pairing the labels and inputs) */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+/* Input Pair Styling */
+.input-pair {
+    flex: 1 1 48%;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+}
+
+.input-pair label {
+    margin-bottom: 5px;
+}
+
+/* Input, Select, Textarea Styling */
+.input-pair input,
+.input-pair select,
+.input-pair textarea {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* OTP block styling */
+.otp-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Styling for OTP input fields */
+.otp-inputs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.otp-inputs input {
+    width: 40px;
+    height: 45px;
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.otp-inputs input:focus {
+    border-color: #7b2ff7;
+    box-shadow: 0 0 4px rgba(123, 47, 247, 0.5);
+}
+
+/* OTP Button aligned with input */
+.otp-block .otp-button {
+    padding: 10px 16px;
+    background: #3498db;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+    height: 25px;
+}
+
+.otp-block .otp-button:hover {
+    background: #66bb6a;
+}
+
+/* Submit Button Styling */
+.registration-form button.submit-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 12px;
+    background-color: #3498db;
+    border: none;
+    color: black;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.registration-form button.submit-button:hover {
+    background-color: #66bb6a;
+    color: #000;
+}
+
+/* Login Message */
+.lgin {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #444;
+}
+
+.lgin a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Error Message Styling */
+.error-message {
+    color: red;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 5px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .input-pair {
+        flex: 1 1 100%;
+    }
+
+    .otp-inputs input {
+        width: 40px;
+    }
+
+    .otp-block {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .otp-block .otp-button {
+        width: 100%;
+    }
+
+    .registration-form {
+        padding: 30px 20px;
+    }
+}
+
+/* Get OTP Button Styling */
+.get-otp-btn {
+    padding: 10px 16px;
+    background-color: #3498db;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-top: 8px;
+    /* margin-left: 10px; */
+    height: 40px;
+}
+
+.get-otp-btn:hover {
+    background-color: #66bb6a;
+    color: black;
+}

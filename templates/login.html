@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="brand">
+                <span class="logo"></span>
+                <h3>WELCOME TO MESSTRACK</h3>
+            </div>
+            <p>Hey, welcome back to MessTrack</p>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="alert-container">
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <!-- Login Form -->
+            <form method="POST" autocomplete="off">
+                {{ form.hidden_tag() }}
+                {{ form.username(placeholder="Username" , autocomplete="new-username") }}
+                {{ form.password(placeholder="Password" , autocomplete="new-password") }}
+
+                <!-- Captcha block -->
+                <div class="captcha-block">
+                    <span class="captcha-text">{{ captcha }}</span>
+                    <button class="refresh-captcha" type="button" onclick="location.reload();">&#x21bb;</button>
+                </div>
+                {{ form.captcha(placeholder="Enter Captcha") }}
+
+                <div class="options">
+                    <label><input type="checkbox"> Remember me</label>
+                    <a href="forgot.html">Forgot Password?</a>
+                </div>
+
+                <button type="submit">{{ form.submit.label.text }}</button>
+
+                <p class="signup">Don't have an account?
+                    <a href="{{ url_for('register') }}">Sign Up</a>
+                </p>
+            </form>
+
+            <!-- Form Field Errors -->
+            {% for field in form %}
+            {% for error in field.errors %}
+            <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+
+        <div class="right">
+            <img src="{{ url_for('static', filename='loginimage.jpg') }}" alt="login" />
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='login.js') }}"></script>
+</body>
+
+</html>

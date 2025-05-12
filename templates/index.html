@@ -105,11 +105,16 @@
             </div>
         </div>
     </div>
-
+    <div class="logbutton">
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
     <!-- Footer -->
+
     <footer class="footer">
         <p>&copy; 2025 MessTrack. All rights reserved.</p>
     </footer>
+
+
 
     <!-- Your JS File -->
     <script src="{{ url_for('static', filename='index.js') }}"></script>

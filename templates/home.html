@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MessTrack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">MessTrack</div>
+        <ul class="nav-menu">
+            <li class="dropdown">
+                <a href="#" class="dropbtn">Login ▾</a>
+                <ul class="dropdown-content">
+                    <li><a href="adminlogin.html">Admin Login</a></li>
+                    <li><a href="{{ url_for('login') }}">Student Login</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Welcome Section -->
+    <section class="welcome">
+        <h1 class="main-title">"WELCOME TO MESSTRACK"</h1>
+        <p class="info">
+            "MessTrack simplifies mess management for students and admins.
+            Easily track attendance, view meals, and manage accounts – all in one platform!"<br>
+            This keeps it brief, clear, and impactful while conveying the core features of MessTrack.
+        </p>
+    </section>
+</body>
+
+</html>

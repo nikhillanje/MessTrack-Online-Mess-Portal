@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+</head>
+
+<body>
+    <div class="registration-form">
+        <h2>Register To MessTrack</h2>
+        <form method="POST" autocomplete="off">
+            {{ form.hidden_tag() }}
+
+            <div class="form-row">
+                <div class="input-pair">
+                    <label for="name">Full Name</label>
+                    {{ form.name(id="name", placeholder="Enter your full name", class="input-field", required=True) }}
+                </div>
+                <div class="input-pair">
+                    <label for="email">Email-ID</label>
+                    {{ form.email(id="email", placeholder="Enter your email", class="input-field", required=True) }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-pair">
+                    <label for="mobile">Mobile Number</label>
+                    <div class="mobile-with-otp">
+                        {{ form.mobile_no(id="mobile", placeholder="Enter mobile number", class="input-field",
+                        required=True) }}
+                        <button type="button" class="get-otp-btn">Get OTP</button>
+                    </div>
+                </div>
+                <div class="input-pair">
+                    <label for="address">Address</label>
+                    {{ form.address(id="address", placeholder="Enter address", class="input-field", rows="3",
+                    required=True) }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-pair">
+                    <label for="academic_branch">Academic Branch</label>
+                    {{ form.academic_branch(id="academic_branch", class="input-field", placeholder="Academic Branch",
+                    required=True) }}
+                </div>
+                <div class="input-pair">
+                    <label for="academic_year">Academic Year</label>
+                    {{ form.academic_year(id="academic_year", class="input-field", placeholder="Academic Year",
+                    required=True) }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-pair">
+                    <label for="username">Username</label>
+                    {{ form.username(id="username", placeholder="Enter username", class="input-field", required=True) }}
+                </div>
+                <div class="input-pair">
+                    <label for="password">Password</label>
+                    {{ form.password(id="password", placeholder="Enter password", class="input-field", required=True,
+                    autocomplete="new-password") }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-pair">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" placeholder="Re-enter password" class="input-field"
+                        required>
+                </div>
+                <div class="input-pair">
+                    <label for="gender">Gender</label>
+                    {{ form.gender(id="gender", class="input-field", required=True) }}
+                </div>
+            </div>
+
+            <div class="otp-block" autocomplete="off">
+                <label>Enter OTP</label>
+                <div class="otp-inputs">
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                    <input type="text" maxlength="1" required>
+                </div>
+                <button type="button" class="otp-button">Verify OTP</button>
+            </div>
+
+            <button type="submit" class="submit-button">{{ form.submit.label.text }}</button>
+            <p class="lgin">I have an account !
+                <a href="{{ url_for('login') }}">Login</a>
+            </p>
+
+            {% for field in form %}
+            {% for error in field.errors %}
+            <p class="error-message">{{ error }}</p>
+            {% endfor %}
+            {% endfor %}
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='register.js') }}"></script>
+</body>
+
+</html>
