@@ -1,8 +1,7 @@
 {
     "params": {
         "local_server": "true",
-        "local_uri": "mysql+pymysql://root:@localhost/messtrack",
-        "prod_uri": "mysql+pymysql://root:@localhost/messtrack",
+        "mongo_uri": "mongodb://localhost:27017/messtrack",
         "gmail_user": "nikhillanje00@gmail.com",
         "gmail_password": "szkt wxin xlmm jbzn"
     }

@@ -1,19 +1,31 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const menuIcon = document.querySelector('.menu_icon');
-    const sidebar = document.getElementById('sidebar');
-    const body = document.querySelector('body');
+// DARK MODE TOGGLE
+function toggleMode() {
+    const body = document.body;
+    const icon = document.querySelector(".mode-toggle i");
 
-    // Toggle sidebar on menu icon click
-    menuIcon.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-    });
+    body.classList.toggle("dark-mode");
 
-    // Close sidebar when clicking outside of it
-    body.addEventListener('click', function (e) {
-        // Check if the clicked target is outside the sidebar and not the menu icon
-        if (!sidebar.contains(e.target) && !menuIcon.contains(e.target)) {
-            sidebar.classList.remove('active');
-        }
-    });
+    if (body.classList.contains("dark-mode")) {
+        icon.classList.remove("bi-moon-fill");
+        icon.classList.add("bi-sun-fill");
+    } else {
+        icon.classList.remove("bi-sun-fill");
+        icon.classList.add("bi-moon-fill");
+    }
+}
+
+// SIDEBAR TOGGLE
+const sidebar = document.getElementById('sidebar');
+const menuIcon = document.querySelector('.menu_icon'); // Using class as in HTML
+
+menuIcon.addEventListener('click', function (event) {
+    event.stopPropagation(); // Prevent this click from bubbling to the document
+    sidebar.classList.toggle('active');
 });
 
+// CLOSE SIDEBAR WHEN CLICKING OUTSIDE
+document.addEventListener('click', function (event) {
+    if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+        sidebar.classList.remove('active');
+    }
+});

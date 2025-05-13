@@ -1,161 +1,102 @@
-
-from flask import Flask, render_template, request, session, redirect, url_for, flash  # type: ignore
-from sqlalchemy import Column, Integer, String, DateTime  # type: ignore
-from flask_sqlalchemy import SQLAlchemy  # type: ignore
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required  # type: ignore
-from flask_wtf import FlaskForm  # type: ignore
-from wtforms import StringField, PasswordField, SubmitField  # type: ignore
-from wtforms.validators import InputRequired, Length, ValidationError  # type: ignore
-from wtforms import StringField, PasswordField, SubmitField, IntegerField  # type: ignore
-from wtforms.validators import InputRequired, Length, ValidationError, Email  # type: ignore
-from flask_mail import Mail  # type: ignore
-from flask_bcrypt import Bcrypt  # type: ignore
-from wtforms import StringField, PasswordField, SubmitField, SelectField
-from wtforms.validators import DataRequired
+from flask import Flask, render_template, request, session, redirect, url_for, flash
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField
+from wtforms.validators import InputRequired, Email, ValidationError
+from flask_mail import Mail
+from flask_bcrypt import Bcrypt
+from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
 import random, string
-import json  # type: ignore
-import os  # type: ignore
+import json
 
-
-
-config_path = os.path.join(os.path.dirname(__file__), 'config.json')
-with open(config_path, 'r') as c:
+# Load config
+with open('config.json', 'r') as c:
     params = json.load(c)["params"]
-
-local_server = True #variable for config file
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
+app.secret_key = 'super-secret-key'
 
-app.secret_key ='super-secret-key' #for log in we need this 
-#for send gmail
-app.config.update(         
-    MAIL_SERVER = 'smtp.gmail.com',
-    MAIL_PORT = 465,
-    MAIL_USE_SSL = True,
-    MAIL_USERNAME = params['gmail_user'],
-    MAIL_PASSWORD = params['gmail_password']
+# Mail setup
+app.config.update(
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_PORT=465,
+    MAIL_USE_SSL=True,
+    MAIL_USERNAME=params['gmail_user'],
+    MAIL_PASSWORD=params['gmail_password']
 )
 mail = Mail(app)
 
-if(local_server) :
-    app.config["SQLALCHEMY_DATABASE_URI"] = params['local_uri']
-else :
-    app.config["SQLALCHEMY_DATABASE_URI"] = params['prod_uri']
+# MongoDB setup
+app.config["MONGO_URI"] = params["mongo_uri"]
+mongo = PyMongo(app)
 
-
-db = SQLAlchemy(app)
-
-login_manager = LoginManager() # type: ignore
+# Flask-Login setup
+login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-
- 
-class User(db.Model, UserMixin):
-    __tablename__ = 'login'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))  # <-- Add this line
-    username = db.Column(db.String(25), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-    address = db.Column(db.String(200))
-    mobile_no = db.Column(db.String(15))  # match form field
-    email = db.Column(db.String(120), unique=True)
-    academic_branch = db.Column(db.String(100))
-    academic_year = db.Column(db.Integer)
-    gender = db.Column(db.String(10), nullable=False)
-
-# User loader function for Flask-Login
+# User loader
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    user = mongo.db.users.find_one({"_id": ObjectId(user_id)})
+    return User(user) if user else None
 
+# Flask-Login User class
+class User(UserMixin):
+    def __init__(self, user_data):
+        self.id = str(user_data['_id'])
+        self.username = user_data['username']
+        self.password = user_data['password']
+
+# Forms
 class RegisterForm(FlaskForm):
-    name = StringField('Name', validators=[InputRequired(), Length(min=2, max=50)])
-    username = StringField('Username', validators=[InputRequired(), Length(min=3, max=25)])
+    name = StringField('Name', validators=[InputRequired()])
+    username = StringField('Username', validators=[InputRequired()])
     password = PasswordField('Password', validators=[InputRequired()])
     address = StringField('Address', validators=[InputRequired()])
-    mobile_no = StringField('Mobile Number', validators=[InputRequired(), Length(min=10, max=15)])
+    mobile_no = StringField('Mobile No', validators=[InputRequired()])
     email = StringField('Email', validators=[InputRequired(), Email()])
-    academic_branch = StringField('Academic Branch', validators=[InputRequired()])
-    academic_year = IntegerField('Academic Year', validators=[InputRequired()])
-    gender = SelectField('Gender', choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')], validators=[DataRequired()])
+    academic_branch = StringField('Branch', validators=[InputRequired()])
+    academic_year = IntegerField('Year', validators=[InputRequired()])
+    gender = SelectField('Gender', choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')])
     submit = SubmitField('Register')
 
-
     def validate_username(self, username):
-        existing_user = User.query.filter_by(username=username.data).first()
-        if existing_user:
-            raise ValidationError('That username is taken. Please choose a different one.')
+        if mongo.db.users.find_one({'username': username.data}):
+            raise ValidationError('Username already exists.')
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[InputRequired(), Length(min=4, max=20)])
-    password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=20)])
-    captcha = StringField('Enter CAPTCHA', validators=[DataRequired()])
+    username = StringField('Username', validators=[InputRequired()])
+    password = PasswordField('Password', validators=[InputRequired()])
+    captcha = StringField('Enter CAPTCHA', validators=[InputRequired()])
     submit = SubmitField('Login')
 
+# CAPTCHA generator
+def generate_captcha(length=6):
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
 
-
-
-class Feedback(db.Model):
-    __tablename__ = 'feedback'
-    srn = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    feedback = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
-    suggestion = db.Column(db.String(50), nullable=True)
-
-
-class Contact(db.Model):
-    __tablename__ = 'contact'
-    srn = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
-    query = db.Column(db.String(50), nullable=False)
-
-
-
-
-
-
-
-
-
-
+# Routes
 @app.route("/")
 def home():
     return render_template("home.html")
 
-
-
-
-
-
-
-def generate_captcha(length=6):
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-
-    # Always generate new captcha on GET (or failed POST)
     if request.method == 'GET' or not form.validate_on_submit():
         session['captcha_text'] = generate_captcha()
 
     if form.validate_on_submit():
         if form.captcha.data != session.get('captcha_text'):
-            flash('Incorrect CAPTCHA. Please try again.', 'danger')
-            session['captcha_text'] = generate_captcha()  # regenerate after wrong input
+            flash('Incorrect CAPTCHA.', 'danger')
+            session['captcha_text'] = generate_captcha()
             return render_template('login.html', form=form, captcha=session['captcha_text'])
 
-        user = User.query.filter_by(username=form.username.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user)
+        user_data = mongo.db.users.find_one({'username': form.username.data})
+        if user_data and bcrypt.check_password_hash(user_data['password'], form.password.data):
+            login_user(User(user_data))
             session.pop('captcha_text', None)
             return redirect(url_for('index'))
         else:
@@ -164,46 +105,31 @@ def login():
 
     return render_template('login.html', form=form, captcha=session['captcha_text'])
 
-
-
-
-
-
-
-
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        new_user = User(
-            name=form.name.data,
-            username=form.username.data,
-            password=hashed_password,
-            address=form.address.data,
-            mobile_no=form.mobile_no.data,
-            email=form.email.data,
-            academic_branch=form.academic_branch.data,
-            academic_year=form.academic_year.data,
-            gender = form.gender.data
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        flash('Registration successful! Please log in.', 'success')
+        new_user = {
+            "name": form.name.data,
+            "username": form.username.data,
+            "password": hashed_password,
+            "address": form.address.data,
+            "mobile_no": form.mobile_no.data,
+            "email": form.email.data,
+            "academic_branch": form.academic_branch.data,
+            "academic_year": form.academic_year.data,
+            "gender": form.gender.data
+        }
+        mongo.db.users.insert_one(new_user)
+        flash('Registered successfully. Please login.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
-
-
-
 @app.route('/index')
-@login_required # type: ignore
+@login_required
 def index():
     return render_template('index.html')
-
-
 
 @app.route('/logout')
 @login_required
@@ -211,112 +137,74 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-
-
-
-
-
 @app.route("/feedback", methods=['GET', 'POST'])
 @login_required
 def feedback():
     if request.method == 'POST':
-        # Safe get with default values
-        name = request.form.get('name', '').strip()
-        feedback = request.form.get('feedback', '').strip()
-        email = request.form.get('email', '').strip()
-        suggestion = request.form.get('suggestion', '').strip()
+        name = request.form['name']
+        feedback_text = request.form['feedback']
+        email = request.form['email']
+        suggestion = request.form.get('suggestion', '')
 
-        # Validation: required fields
-        if not name or not feedback or not email:
-            return render_template('feedback.html', params=params, error="Please fill in all required fields.")
+        if not name or not feedback_text or not email:
+            return render_template('feedback.html', params=params, error="Fill all fields.")
 
-        try:
-            # Save to database
-            entry = Feedback(name=name, feedback=feedback, email=email, suggestion=suggestion)
-            db.session.add(entry)
-            db.session.commit()
+        mongo.db.feedback.insert_one({
+            "name": name,
+            "feedback": feedback_text,
+            "email": email,
+            "suggestion": suggestion
+        })
 
-            # Send email
-            mail.send_message(
-                'New Feedback from MessTrack',
-                sender=email,
-                recipients=[params['gmail_user']],
-                body=f"Feedback From Mr: {name}\nFeedback: {feedback}\nSuggestion: {suggestion}\nEmail Of Mr {name} Is : {email}"
-            )
+        mail.send_message(
+            'New Feedback from MessTrack',
+            sender=email,
+            recipients=[params['gmail_user']],
+            body=f"Feedback from {name}:\n\n{feedback_text}\n\nSuggestion: {suggestion}\nEmail: {email}"
+        )
+        return render_template('thankyou.html', params=params, success=1)
 
-            return render_template('thankyou.html', params=params , success=1)
-
-        except Exception as e:
-            db.session.rollback()
-            return render_template('feedback.html', params=params, error="Something went wrong. Please try again.")
-    
     return render_template('feedback.html', params=params)
-
-
-
-
-
 
 @app.route("/contact", methods=['GET', 'POST'])
 @login_required
 def contact():
     if request.method == 'POST':
-        name = request.form.get('name', '').strip()
-        email = request.form.get('email', '').strip()
-        query = request.form.get('query', '').strip()   # In HTML we Want to Write <textarea id="query" name="query" rows="6" required></textarea>
+        name = request.form['name']
+        email = request.form['email']
+        query = request.form['query']
 
         if not name or not email or not query:
-            return render_template('contact.html', params=params, error="Please fill in all required fields.")
+            return render_template('contact.html', params=params, error="Fill all fields.")
 
-        try:
-            # Save to DB
-            entry = Contact(name=name, email=email, query=query)
-            db.session.add(entry)
-            db.session.commit()
+        mongo.db.contact.insert_one({
+            "name": name,
+            "email": email,
+            "query": query
+        })
 
-            # Send Email
-            mail.send_message(
-                'New Query from MessTrack',
-                sender=email,
-                recipients=[params['gmail_user']],
-                body=f"Query From Mr: {name}\nQuery Is: {query}\nEmail of Mr {name}: {email}"
-            )
-
-            return render_template('thankyou.html', params=params , success=2)
-
-        except Exception as e:
-            db.session.rollback()
-            print("Error in /contact:", e)
-            return render_template('contact.html', params=params, error="Something went wrong. Please try again.")
+        mail.send_message(
+            'New Contact Query',
+            sender=email,
+            recipients=[params['gmail_user']],
+            body=f"Query from {name}:\n\n{query}\n\nEmail: {email}"
+        )
+        return render_template('thankyou.html', params=params, success=2)
 
     return render_template('contact.html', params=params)
 
-
-
-
-
-
-
-@app.route("/thankyou" , methods=['POST'])
+@app.route("/thankyou")
 @login_required
 def thankyou():
     return render_template("thankyou.html")
-
-
-
-
-
-
-
-
 
 @app.route('/timetable')
 def timetable():
     return render_template('timetable.html')
 
-@app.route('/attendence')
+@app.route('/attendance')
 def attendence():
-    return render_template('attendence.html')
+    return render_template('attendance.html')
 
 @app.route('/billing')
 def billing():
