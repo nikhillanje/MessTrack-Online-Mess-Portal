@@ -1,3 +1,4 @@
+# type: ignore
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
@@ -6,7 +7,7 @@ from wtforms.validators import InputRequired, Email, ValidationError
 from flask_mail import Mail
 from flask_bcrypt import Bcrypt
 from flask_pymongo import PyMongo
-from bson.objectid import ObjectId
+from bson.objectid import ObjectId 
 import random, string
 import json
 
