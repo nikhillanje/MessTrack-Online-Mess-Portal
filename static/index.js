@@ -29,3 +29,8 @@ document.addEventListener('click', function (event) {
         sidebar.classList.remove('active');
     }
 });
+
+
+function confirmLogout() {
+    return confirm("Are you sure you want to log out?");
+}

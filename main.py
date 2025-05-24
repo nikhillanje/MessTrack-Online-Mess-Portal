@@ -132,11 +132,6 @@ def register():
 def index():
     return render_template('index.html')
 
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('home'))
 
 @app.route("/feedback", methods=['GET', 'POST'])
 @login_required
@@ -185,7 +180,7 @@ def contact():
         })
 
         mail.send_message(
-            'New Contact Query',
+            'New Query from MessTrack',
             sender=email,
             recipients=[params['gmail_user']],
             body=f"Query from {name}:\n\n{query}\n\nEmail: {email}"
@@ -207,25 +202,42 @@ def timetable():
 def attendence():
     return render_template('attendance.html')
 
-@app.route('/billing')
-def billing():
-    return render_template('billing.html')
-
 @app.route('/menu')
 def menu():
     return render_template('menu.html')
 
-@app.route('/monthly_billing')
-def monthly_billing():
-    return render_template('monthly_billing.html')
+@app.route('/billing')
+def billing():
+    return render_template('billing.html')
 
 @app.route('/notifications')
 def notifications():
     return render_template('notifications.html')
 
-@app.route('/leave_messtrack')
+@app.route('/leave')
 def leave_messtrack():
-    return render_template('leave_messtrack.html')
+    return render_template('leave.htnl')
+
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+
+
+
+
+
+
+#Admin
+@app.route('/adminlogin')
+def adminlogin():
+    return render_template('adminlogin.html')
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

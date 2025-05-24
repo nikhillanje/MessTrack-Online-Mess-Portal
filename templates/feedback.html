@@ -2,44 +2,54 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Feedback - MessTrack</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='feedback.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='feedback.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div class="container">
-        <h1>Feedback Form</h1>
-        <p>Your responses will help us improve our service.</p>
+    <a href="{{ url_for('index') }}" class="back-button" title="Go back">×</a>
 
-        {% if success %}
-        <p class="success">feedback is Not Send !</p>
-        {% endif %}
-
-        <form action="/feedback" method="POST">
-
-            <!-- Name Field -->
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-
-            <!-- Email Field -->
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <!-- Feedback Message -->
-            <label for="feedback">Feedback:</label>
-            <textarea id="feedback" name="feedback" rows="5" required></textarea>
-
-            <!-- Suggestions for Improvement -->
-            <label for="suggestion">Suggestions for Improvement:</label>
-            <textarea id="suggestion" name="suggestion" rows="4"></textarea>
-
-            <!-- Submit Button -->
-            <button type="submit">Submit Feedback</button>
-        </form>
-
+    {% if success %}
+    <div class="alert alert-success text-center" role="alert">
+        Feedback is Not Sent!
     </div>
+    {% endif %}
+
+    <form class="feedback-form" action="/feedback" method="POST">
+        <h2 class="text-center mb-4">Mess Feedback Form</h2>
+
+        <!-- Name -->
+        <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required />
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required />
+        </div>
+
+        <!-- Feedback -->
+        <div class="mb-3">
+            <label for="feedback" class="form-label">Feedback:</label>
+            <textarea class="form-control" id="feedback" name="feedback" rows="5" placeholder="Your feedback..."
+                required></textarea>
+        </div>
+
+        <!-- Suggestions -->
+        <div class="mb-3">
+            <label for="suggestion" class="form-label">Suggestions for Improvement:</label>
+            <textarea class="form-control" id="suggestion" name="suggestion" rows="4"
+                placeholder="Any suggestions..."></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-custom w-100">Submit Feedback</button>
+    </form>
 </body>
 
 </html>

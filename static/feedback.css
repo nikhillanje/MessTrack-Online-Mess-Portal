@@ -1,139 +1,93 @@
+/* Background & Fonts */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #ae91db, #ab9c9c);
     margin: 0;
     padding: 0;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Feedback Form (Transparent, Wider, No White Box) */
+.feedback-form {
     width: 100%;
-    max-width: 700px;
-    /* Adjust max width to prevent overflow */
-    box-sizing: border-box;
-    margin: 10px;
+    max-width: 640px;
+    /* Slightly increased width */
+    padding: 40px 30px;
 }
 
-h1 {
+/* Heading */
+.feedback-form h2 {
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 30px;
     text-align: center;
-    color: #333;
 }
 
-p {
-    text-align: center;
-    color: #555;
-    margin-bottom: 20px;
+/* Label Styling */
+.feedback-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #fff;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-label {
-    font-size: 14px;
-    color: #555;
-}
-
-input,
-textarea,
-select {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+/* Input & Textarea Styling */
+.feedback-form input[type="text"],
+.feedback-form input[type="email"],
+.feedback-form textarea {
     width: 100%;
-    /* Ensure inputs take full width */
-    box-sizing: border-box;
-}
-
-input[type="text"],
-select {
-    height: 40px;
-}
-
-textarea {
-    resize: vertical;
-}
-
-button {
     padding: 12px;
-    font-size: 16px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-button:active {
-    background-color: #004085;
-}
-
-.success {
-    color: green;
-    font-weight: bold;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
     margin-bottom: 20px;
+    background-color: rgba(230, 225, 225, 0.95);
+    /* Light translucent input background */
+    transition: 0.3s ease;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-
-    button {
-        padding: 10px;
-    }
-
-    label {
-        font-size: 13px;
-    }
-
-    input,
-    textarea,
-    select {
-        font-size: 14px;
-    }
+.feedback-form input:focus,
+.feedback-form textarea:focus {
+    border-color: #7b2ff7;
+    outline: none;
+    box-shadow: 0 0 4px rgba(123, 47, 247, 0.5);
 }
 
-@media screen and (max-width: 480px) {
-    .container {
-        width: 90%;
-        /* Make container more compact on very small screens */
-        padding: 10px;
-    }
+/* Submit Button */
+.btn-custom {
+    width: 100%;
+    padding: 14px;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 12px;
+    background-color: #ff6f61;
+    /* Bold Coral */
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
 
-    button {
-        font-size: 14px;
-        padding: 10px;
-    }
+.btn-custom:hover {
+    background-color: #e64a3c;
+    /* Slightly darker on hover */
+    transform: scale(1.03);
+}
 
-    input,
-    textarea,
-    select {
-        font-size: 14px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-
-    p {
-        font-size: 12px;
-    }
+/* Back Button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+    background: none;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
 }

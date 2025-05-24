@@ -1,112 +1,91 @@
+/* Background & Fonts */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
+    background: linear-gradient(135deg, #ae91db, #ab9c9c);
     margin: 0;
     padding: 0;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.contact-container {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Form (same as feedback-form) */
+.feedback-form {
     width: 100%;
-    max-width: 700px;
-    box-sizing: border-box;
-    margin: 10px;
+    max-width: 640px;
+    padding: 40px 30px;
+    margin-top: -40px;
+    /* Move form 40px upward */
 }
 
-h1 {
+/* Heading */
+.feedback-form h2 {
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 30px;
     text-align: center;
-    color: #333;
-    font-size: 36px;
 }
 
-p {
-    text-align: center;
-    color: #777;
-    margin-bottom: 25px;
-    font-size: 18px;
+/* Label Styling */
+.feedback-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #fff;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-label {
-    font-size: 16px;
-    color: #555;
-}
-
-input,
-textarea {
+/* Input & Textarea Styling */
+.feedback-form input[type="text"],
+.feedback-form input[type="email"],
+.feedback-form textarea {
+    width: 100%;
     padding: 12px;
-    font-size: 16px;
+    font-size: 15px;
+    border-radius: 10px;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    margin-bottom: 20px;
+    background-color: rgba(230, 225, 225, 0.95);
+    transition: 0.3s ease;
+}
+
+.feedback-form input:focus,
+.feedback-form textarea:focus {
+    border-color: #7b2ff7;
+    outline: none;
+    box-shadow: 0 0 4px rgba(123, 47, 247, 0.5);
+}
+
+/* Submit Button */
+.btn-custom {
     width: 100%;
-    box-sizing: border-box;
-}
-
-input[type="text"],
-input[type="email"] {
-    height: 45px;
-}
-
-textarea {
-    resize: vertical;
-}
-
-button {
     padding: 14px;
-    font-size: 18px;
-    background-color: #007BFF;
-    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 12px;
+    background-color: #ff6f61;
+    color: #fff;
     border: none;
-    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-custom:hover {
+    background-color: #e64a3c;
+    transform: scale(1.03);
+}
+
+/* Back Button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+    background: none;
+    border: none;
+    box-shadow: none;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-button:active {
-    background-color: #004085;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    .contact-container {
-        padding: 20px;
-    }
-
-    button {
-        padding: 12px;
-    }
-
-    input,
-    textarea {
-        font-size: 14px;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .contact-container {
-        width: 90%;
-        /* Make container more compact on very small screens */
-    }
-
-    button {
-        font-size: 16px;
-        padding: 10px;
-    }
 }

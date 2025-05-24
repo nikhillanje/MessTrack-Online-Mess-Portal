@@ -30,7 +30,7 @@ nav {
 }
 
 .logo .h1logo {
-    font-size: 28px;
+    font-size: 30px;
     font-weight: bold;
     color: white;
     margin: 0;
@@ -160,7 +160,7 @@ nav {
     top: 0;
     left: -250px;
     width: 200px;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 25px);
     background-color: #8d61d4;
     color: white;
     padding: 20px;
@@ -231,7 +231,7 @@ nav {
 }
 
 .dark-mode .led-text {
-    color: #0f0;
+    color: rgba(124, 148, 226, 0.973);
 }
 
 /* LED animation */
@@ -248,10 +248,25 @@ nav {
 .led-text {
     position: absolute;
     white-space: nowrap;
-    color: #000;
+    color: white;
     font-weight: 600;
     font-size: 25px;
     line-height: 40px;
     font-family: 'Courier New', monospace;
     animation: scroll-left-right 12s linear infinite;
+}
+
+
+/* Dark Mode Sidebar */
+.dark-mode .sidebar {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.dark-mode .sidebar ul li a {
+    color: #e0e0e0;
+}
+
+.dark-mode .sidebar ul li a:hover {
+    color: #90caf9;
 }
