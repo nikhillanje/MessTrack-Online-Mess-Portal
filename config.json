@@ -2,6 +2,7 @@
     "params": {
         "local_server": "true",
         "mongo_uri": "mongodb://localhost:27017/messtrack",
+        "secret_key": "a3f1b7e9c4d2f68a1b3e7d9f0c2a4b5d6e7f8a9b0c1d2e3f",
         "gmail_user": "nikhillanje00@gmail.com",
         "gmail_password": "szkt wxin xlmm jbzn"
     }

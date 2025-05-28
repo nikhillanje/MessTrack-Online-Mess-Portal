@@ -4,7 +4,12 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField
 from wtforms.validators import InputRequired, Email, ValidationError
+from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash
 from flask_mail import Mail
+from functools import wraps
+from flask import session, jsonify
+from flask import session, redirect, url_for, flash
 from flask_bcrypt import Bcrypt
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId 
@@ -17,7 +22,8 @@ with open('config.json', 'r') as c:
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
-app.secret_key = 'super-secret-key'
+app.secret_key = params['secret_key']
+
 
 # Mail setup
 app.config.update(
@@ -216,7 +222,7 @@ def notifications():
 
 @app.route('/leave')
 def leave_messtrack():
-    return render_template('leave.htnl')
+    return render_template('leave.html')
 
 
 
@@ -233,9 +239,69 @@ def logout():
 
 
 #Admin
-@app.route('/adminlogin')
+@app.route('/adminlogin', methods=['GET', 'POST'])
 def adminlogin():
-    return render_template('adminlogin.html')
+    if request.method == 'GET':
+        # Generate and store a new CAPTCHA in session for GET requests (login form load)
+        session['captcha_text'] = generate_captcha()
+        return render_template("adminlogin.html", captcha=session['captcha_text'])
+
+    # POST request handling (form submission)
+    email = request.form['email']
+    password = request.form['password']
+    captcha_input = request.form.get('captcha', '').strip()
+
+    # Check CAPTCHA first
+    if captcha_input.upper() != session.get('captcha_text', '').upper():
+        flash("Incorrect CAPTCHA.", "danger")
+        session['captcha_text'] = generate_captcha()  # Regenerate CAPTCHA on failure
+        return render_template("adminlogin.html", captcha=session['captcha_text'])
+
+    # CAPTCHA correct, check admin credentials
+    admin = mongo.db.adminlogin.find_one({"email": email})
+    if admin and check_password_hash(admin['password'], password):
+        session.clear()  # Clear previous session data
+        session['admin_logged_in'] = True
+        session['admin_email'] = email
+        return redirect(url_for('adminindex'))
+    else:
+        flash("Invalid email or password", "danger")
+        session['captcha_text'] = generate_captcha()  # Regenerate CAPTCHA on failure
+        return render_template("adminlogin.html", captcha=session['captcha_text'])
+
+
+@app.route('/refresh_captcha')
+def refresh_captcha():
+    new_captcha = generate_captcha()
+    session['captcha_text'] = new_captcha
+    return new_captcha
+
+
+
+def admin_login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('admin_logged_in'):
+            flash("Admin login required", "warning")
+            return redirect(url_for('adminlogin'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+
+
+@app.route('/adminindex')
+@admin_login_required
+def adminindex():
+    return render_template('adminindex.html')
+
+
+@app.route('/adminlogout')
+def adminlogout():
+    session.pop('admin_logged_in', None)
+    session.pop('admin_email', None)
+    flash("Logged out successfully", "success")
+    return redirect(url_for('adminlogin'))
 
 
 

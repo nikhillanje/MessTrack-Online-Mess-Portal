@@ -6,8 +6,6 @@
 }
 
 body {
-    /* background-color: #ffffff; */
-    /* background: linear-gradient(135deg, #9b7ecb, #f451bd); */
     background: linear-gradient(135deg, #8d61d4, #ab9c9c);
     display: flex;
     position: relative;
@@ -72,6 +70,13 @@ input[type="text"] {
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+/* Highlight input field red if invalid (e.g. invalid captcha) */
+input.error {
+    border-color: #e74c3c !important;
+    background-color: #fceae9;
 }
 
 .options {
@@ -125,15 +130,14 @@ button:hover {
 }
 
 .right img {
-    max-width: 95%;
-    height: 80%;
+    max-width: 90%;
+    height: 85%;
     border-radius: 20px;
 }
 
-
 /* Captcha block styling */
 .captcha-block {
-    /* display: flex; */
+    display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 15px;
@@ -149,6 +153,7 @@ button:hover {
     font-size: 16px;
     color: #333;
     user-select: none;
+    border: 1px solid #ccc;
 }
 
 .refresh-captcha {
@@ -157,7 +162,9 @@ button:hover {
     font-size: 20px;
     cursor: pointer;
     color: #7b2ff7;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 6px;
+    padding: 4px 8px;
 }
 
 .refresh-captcha:hover {
@@ -165,44 +172,34 @@ button:hover {
     transform: rotate(90deg);
 }
 
-
-/* Flash Messages */
-.alert-container {
-    margin-top: 20px;
+/* Flash messages */
+.flash-messages {
+    margin-bottom: 20px;
 }
 
-.alert {
-    padding: 10px;
+.flash-message {
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 600;
     margin-bottom: 10px;
-    border-radius: 5px;
+    font-size: 14px;
+    border: 1px solid transparent;
 }
 
-.alert-success {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
-}
-
-.alert-info {
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
-    color: #0c5460;
-}
-
-.alert-warning {
-    background-color: #fff3cd;
-    border-color: #ffeeba;
-    color: #856404;
-}
-
-.alert-danger {
+.flash-message.danger {
     background-color: #f8d7da;
-    border-color: #f5c6cb;
     color: #721c24;
+    border-color: #f5c6cb;
 }
 
+.flash-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
 
-.back-button {
+/* Updated CSS */
+#back-button {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -220,7 +217,7 @@ button:hover {
     z-index: 1000;
 }
 
-.back-button:hover {
+#back-button:hover {
     background-color: #5e20c6;
     transform: scale(1.1);
 }

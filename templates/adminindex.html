@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+    <h1>Welcome to the Admin Dashboard!</h1>
+
+    <!-- Logout Button -->
+    <form action="{{ url_for('adminlogout') }}" method="get">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+
+</html>

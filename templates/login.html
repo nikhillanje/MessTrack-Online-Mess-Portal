@@ -9,8 +9,13 @@
 </head>
 
 <body>
+    <!-- Go Back Button -->
+    <a href="{{ url_for('home') }}" class="back-button" title="Go back">×</a>
     <div class="container">
         <div class="left">
+
+
+
             <div class="brand">
                 <span class="logo"></span>
                 <h3>WELCOME TO MESSTRACK</h3>
@@ -44,7 +49,7 @@
                 {{ form.captcha(placeholder="Enter Captcha") }}
 
                 <div class="options">
-                    <label><input type="checkbox"> Remember me</label>
+                    <label><input type="checkbox" checked> Remember me</label>
                     <a href="forgot.html">Forgot Password?</a>
                 </div>
 
