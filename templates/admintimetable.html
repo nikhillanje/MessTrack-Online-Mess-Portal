@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Mess Timetable</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admintimetable.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Admin Mess Time-Table</h1>
+        <form method="POST">
+            <table>
+                <tr>
+                    <th>Day</th>
+                    <th>Breakfast</th>
+                    <th>Time</th>
+                    <th>Lunch</th>
+                    <th>Time</th>
+                    <th>Dinner</th>
+                    <th>Time</th>
+                </tr>
+                {% for item in timetable %}
+                <tr>
+                    <td class="day">{{ item.day }}</td>
+                    <td><input type="text" name="breakfast_{{ loop.index0 }}" value="{{ item.breakfast }}"></td>
+                    <td><input type="text" name="breakfast_time_{{ loop.index0 }}" value="{{ item.breakfast_time }}">
+                    </td>
+                    <td><input type="text" name="lunch_{{ loop.index0 }}" value="{{ item.lunch }}"></td>
+                    <td><input type="text" name="lunch_time_{{ loop.index0 }}" value="{{ item.lunch_time }}"></td>
+                    <td><input type="text" name="dinner_{{ loop.index0 }}" value="{{ item.dinner }}"></td>
+                    <td><input type="text" name="dinner_time_{{ loop.index0 }}" value="{{ item.dinner_time }}"></td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="button-group">
+                <button type="submit">Update</button>
+                <button type="button" onclick="window.location.href='/adminindex'">Back</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

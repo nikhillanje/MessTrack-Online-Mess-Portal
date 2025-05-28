@@ -84,7 +84,10 @@ class LoginForm(FlaskForm):
 def generate_captcha(length=6):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
 
-# Routes
+
+
+#--------------------------------------------------------------------------------------------------#
+# Students
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -202,7 +205,21 @@ def thankyou():
 
 @app.route('/timetable')
 def timetable():
-    return render_template('timetable.html')
+    timetable_collection = mongo.db.timetable
+
+    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    timetable = list(timetable_collection.find())
+
+    # If empty, initialize with default NULL values
+    if not timetable:
+        timetable = [{"day": day, "breakfast": "NULL", "lunch": "NULL", "dinner": "NULL"} for day in days]
+
+    # Sort timetable by day order
+    day_order = {day: i for i, day in enumerate(days)}
+    timetable.sort(key=lambda x: day_order.get(x.get("day", ""), 100))
+
+    return render_template('timetable.html', timetable=timetable)
+
 
 @app.route('/attendance')
 def attendence():
@@ -237,7 +254,7 @@ def logout():
 
 
 
-
+#-------------------------------------------------------------------------------------------#
 #Admin
 @app.route('/adminlogin', methods=['GET', 'POST'])
 def adminlogin():
@@ -300,13 +317,39 @@ def adminindex():
 def adminlogout():
     session.pop('admin_logged_in', None)
     session.pop('admin_email', None)
-    flash("Logged out successfully", "success")
-    return redirect(url_for('adminlogin'))
+    return redirect(url_for('home'))
 
 
-@app.route('/admintimetable')
+
+
+
+timetable_collection = mongo.db.timetable
+@app.route('/admintimetable', methods=['GET', 'POST'])
 def admintimetable():
-    return render_template('admintimetable.html')
+    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+    if request.method == 'POST':
+        for i, day in enumerate(days):
+            updated = {
+                "day": day,
+                "breakfast": request.form.get(f"breakfast_{i}", ""),
+                "breakfast_time": request.form.get(f"breakfast_time_{i}", ""),
+                "lunch": request.form.get(f"lunch_{i}", ""),
+                "lunch_time": request.form.get(f"lunch_time_{i}", ""),
+                "dinner": request.form.get(f"dinner_{i}", ""),
+                "dinner_time": request.form.get(f"dinner_time_{i}", "")
+            }
+            timetable_collection.update_one({"day": day}, {"$set": updated}, upsert=True)
+        return redirect('/adminindex')
+
+    # Fetch or initialize if empty
+    timetable = list(timetable_collection.find())
+    if not timetable:
+        timetable = [{"day": day, "breakfast": "", "breakfast_time": "", 
+                      "lunch": "", "lunch_time": "", 
+                      "dinner": "", "dinner_time": ""} for day in days]
+
+    return render_template('admintimetable.html', timetable=timetable)
 
 
 @app.route('/adminfeedback')
@@ -314,6 +357,15 @@ def adminfeedback():
     feedback_data = list(mongo.db.feedback.find({}, {"_id": 0}))
     return render_template("adminfeedback.html", feedbacks=feedback_data)
 
+@app.route("/admincontact")
+def admincontact():
+    contact_data = list(mongo.db.contact.find({}, {"_id": 0}))
+    return render_template("admincontact.html", contacts=contact_data)
+
+@app.route('/adminallusers')
+def adminallusers():
+    users = mongo.db.users.find()
+    return render_template('adminallusers.html', users=users)
 
 
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MessTrack Contacts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admincontact.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Contact Submissions</h1>
+        <table id="contactTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Query</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in contacts %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.query }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ url_for('adminindex') }}" class="back-button">Back</a>
+</body>
+
+</html>

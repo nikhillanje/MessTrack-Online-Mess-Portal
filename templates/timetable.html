@@ -3,79 +3,52 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mess Time-Table</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='timetable.css') }}">
-    <!-- FOR DOWNLOAD PURPOSE ADD THIS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='timetable.css') }}" />
+    <!-- For download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
-    <nav style=" width: 100%; margin-left: 1000px;">
-    </nav>
-
     <div class="container">
-        <h1>Weekly Mess Time-Table</h1>
+        <h1>Mess Time-Table</h1>
         <table>
-            <tr>
-                <th>Day</th>
-                <th>Breakfast</th>
-                <th>Lunch</th>
-                <th>Dinner</th>
-            </tr>
-            <tr>
-                <th>Time</th>
-                <th>8-9 AM</th>
-                <th>12 PM</th>
-                <th>8 PM</th>
-            <tr>
-                <td class="day">Monday</td>
-                <td>NULL</td>
-                <td>NULL</td>
-                <td>NULL</td>
-            </tr>
-            <tr>
-                <td class="day">Tuesday</td>
-                <td>NULL</td>
-                <td>NULL</td>
-                <td>NULL</td>
-            </tr>
-            <tr>
-                <td class="day">Wednesday</td>
-                <td>NULL</td>
-                <td>NULL</td>
-                <td>NULL</td>
-            </tr>
-            <tr>
-                <td class="day">Thursday</td>
-                <td>NULL</td>
-                <td>NULL</td>
-                <td>NULL</td>
-            </tr>
-            <tr>
-                <td class="day">Friday</td>
-                <td>NULL</td>
-                <td>NULL</td>
-                <td>NULL</td>
-            </tr>
-            <tr>
-                <td class="day">Saturday</td>
-                <td>NULL</td>
-                <td>NULL</td>
-                <td>NULL</td>
-            </tr>
-            <tr>
-                <td class="day">Sunday</td>
-                <td>NULL</td>
-                <td>NULL</td>
-                <td>NULL</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th rowspan="2">Day</th>
+                    <th colspan="2">Breakfast</th>
+                    <th colspan="2">Lunch</th>
+                    <th colspan="2">Dinner</th>
+                </tr>
+                <tr>
+                    <th>Menu</th>
+                    <th>Time</th>
+                    <th>Menu</th>
+                    <th>Time</th>
+                    <th>Menu</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in timetable %}
+                <tr>
+                    <td class="day">{{ item.day }}</td>
+                    <td>{{ item.breakfast or "NULL" }}</td>
+                    <td>{{ item.breakfast_time or "N/A" }}</td>
+                    <td>{{ item.lunch or "NULL" }}</td>
+                    <td>{{ item.lunch_time or "N/A" }}</td>
+                    <td>{{ item.dinner or "NULL" }}</td>
+                    <td>{{ item.dinner_time or "N/A" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
+
         <div class="button-group">
             <button id="download">Download</button>
-            <button onclick='window.location.href="/index"'>Back</button>
-
+            <button onclick="window.location.href='/index'">Back</button>
         </div>
     </div>
 

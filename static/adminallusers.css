@@ -1,32 +1,32 @@
-/* Reset and base */
+/* Reset and basic font */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 body {
     background: linear-gradient(135deg, #ae91db, #ab9c9c);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     padding: 20px;
+    min-height: 100vh;
+    /* removed flex centering */
 }
 
 .container {
     background-color: #e8e0e0;
-    padding: 40px;
+    padding: 50px;
     border-radius: 16px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    max-width: 1000px;
     width: 100%;
+    max-width: 1200px;
     text-align: center;
+    margin: 20px auto 40px auto;
+    /* top margin 20px, centered horizontally */
 }
 
 .container h1 {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     font-size: 32px;
     color: #333;
 }
@@ -40,7 +40,7 @@ table {
 
 th,
 td {
-    padding: 12px 15px;
+    padding: 16px;
     border: 1px solid #ccc;
     text-align: center;
     font-size: 15px;
@@ -50,11 +50,6 @@ th {
     background-color: #e0d8f5;
     color: #222;
     border: 2px solid black;
-}
-
-.day {
-    background-color: #f2efff;
-    font-weight: bold;
 }
 
 tr:hover td {
@@ -67,20 +62,34 @@ tr:hover td {
     justify-content: center;
     gap: 15px;
     flex-wrap: wrap;
+    margin-top: 20px;
 }
 
-button {
-    padding: 12px 25px;
+
+/* Common button style for back and download */
+button,
+#back-button {
+    padding: 12px 20px;
     border: none;
     border-radius: 8px;
     background-color: #7b2ff7;
     color: white;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-button:hover {
+button:hover,
+#back-button:hover {
     background-color: #5e20c6;
+}
+
+/* Back button fixed top-right */
+#back-button {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    /* same style as other buttons applied above */
 }

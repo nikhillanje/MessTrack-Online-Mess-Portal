@@ -22,8 +22,9 @@
                 <h1 class="h1logo">Mess-Track Admin</h1>
             </div>
             <ul class="nav-links">
+                <li><a href="{{ url_for('adminallusers') }}">Students info</a></li>
                 <li><a href="{{ url_for('adminfeedback') }}">Feedback</a></li>
-                <li><a href="#"">Contact</a></li>
+                <li><a href="{{ url_for('admincontact') }}"">Contact</a></li>
             </ul>
             <button class=" mode-toggle" onclick="toggleMode()">
                         <i class="bi bi-moon-fill"></i>
@@ -32,7 +33,7 @@
                         <div id="sidebar" class="sidebar">
                             <ul>
                                 <li><a href="#"><i class="bi bi-calendar3" style="color: transparent;"></i></a></li>
-                                <li><a href="#"><i class="bi bi-calendar3"></i> Time
+                                <li><a href="{{ url_for('admintimetable') }}"><i class="bi bi-calendar3"></i> Time
                                         Table</a></li>
                                 <li><a href="#"><i class="bi bi-person-check"></i> Attendance</a></li>
                                 <li><a href="#"><i class="bi bi-list-ul"></i> Menu</a></li>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All User MessTrack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='adminallusers.css') }}" />
+</head>
+
+<body>
+    <nav>
+        <button id="back-button" onclick="location.href='adminindex'">Back</button>
+    </nav>
+
+    <div class="container">
+        <h1>MessTraack All Users</h1>
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Mobile No</th>
+                    <th>Email</th>
+                    <th>Academic Branch</th>
+                    <th>Academic Year</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.address }}</td>
+                    <td>{{ user.mobile_no }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.academic_branch }}</td>
+                    <td>{{ user.academic_year }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+    <div class="button-group">
+        <button class="download-btn" onclick="downloadPDF()">Download as PDF</button>
+    </div>
+
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- jsPDF AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- Your custom JS -->
+    <script src="{{ url_for('static', filename='adminallusers.js') }}"></script>
+</body>
+
+</html>
