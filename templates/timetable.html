@@ -2,14 +2,84 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TimeTable</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mess Time-Table</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='timetable.css') }}">
+    <!-- FOR DOWNLOAD PURPOSE ADD THIS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
-    <h1>This is a Time Table Route</h1>
+    <nav style=" width: 100%; margin-left: 1000px;">
+    </nav>
 
+    <div class="container">
+        <h1>Weekly Mess Time-Table</h1>
+        <table>
+            <tr>
+                <th>Day</th>
+                <th>Breakfast</th>
+                <th>Lunch</th>
+                <th>Dinner</th>
+            </tr>
+            <tr>
+                <th>Time</th>
+                <th>8-9 AM</th>
+                <th>12 PM</th>
+                <th>8 PM</th>
+            <tr>
+                <td class="day">Monday</td>
+                <td>NULL</td>
+                <td>NULL</td>
+                <td>NULL</td>
+            </tr>
+            <tr>
+                <td class="day">Tuesday</td>
+                <td>NULL</td>
+                <td>NULL</td>
+                <td>NULL</td>
+            </tr>
+            <tr>
+                <td class="day">Wednesday</td>
+                <td>NULL</td>
+                <td>NULL</td>
+                <td>NULL</td>
+            </tr>
+            <tr>
+                <td class="day">Thursday</td>
+                <td>NULL</td>
+                <td>NULL</td>
+                <td>NULL</td>
+            </tr>
+            <tr>
+                <td class="day">Friday</td>
+                <td>NULL</td>
+                <td>NULL</td>
+                <td>NULL</td>
+            </tr>
+            <tr>
+                <td class="day">Saturday</td>
+                <td>NULL</td>
+                <td>NULL</td>
+                <td>NULL</td>
+            </tr>
+            <tr>
+                <td class="day">Sunday</td>
+                <td>NULL</td>
+                <td>NULL</td>
+                <td>NULL</td>
+            </tr>
+        </table>
+        <div class="button-group">
+            <button id="download">Download</button>
+            <button onclick='window.location.href="/index"'>Back</button>
+
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='timetable.js') }}"></script>
 </body>
 
 </html>
