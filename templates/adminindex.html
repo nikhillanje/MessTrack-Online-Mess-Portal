@@ -3,16 +3,129 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MessTrack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='adminindex.css') }}"> <!-- Your custom CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
-    <h1>Welcome to the Admin Dashboard!</h1>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="menu_icon">
+                <i class="bi bi-list"></i> <!-- Sidebar Toggle Icon -->
+            </div>
+            <div class="logo">
+                <h1 class="h1logo">Mess-Track Admin</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('adminfeedback') }}">Feedback</a></li>
+                <li><a href="#"">Contact</a></li>
+            </ul>
+            <button class=" mode-toggle" onclick="toggleMode()">
+                        <i class="bi bi-moon-fill"></i>
+                        </button>
+                        <!-- Sidebar -->
+                        <div id="sidebar" class="sidebar">
+                            <ul>
+                                <li><a href="#"><i class="bi bi-calendar3" style="color: transparent;"></i></a></li>
+                                <li><a href="#"><i class="bi bi-calendar3"></i> Time
+                                        Table</a></li>
+                                <li><a href="#"><i class="bi bi-person-check"></i> Attendance</a></li>
+                                <li><a href="#"><i class="bi bi-list-ul"></i> Menu</a></li>
+                                <li><a href="#"><i class="bi bi-receipt"></i> Bills</a></li>
+                                <li><a href="#"><i class="bi bi-bell-fill"></i> Notifications</a></li>
+                                <li><a href="#"><i class="bi bi-door-open"></i> Leave</a></li>
+                                <li><a href="{{ url_for('adminlogout') }}" onclick="return confirmLogout();"
+                                        class="bi bi-box-arrow-right"> Logout</a></li>
+                            </ul>
+                        </div>
+        </nav>
+        <!-- LED-style Scrolling Text -->
+        <div class="led-banner">
+            <div class="led-text" id="ledText"> Welcome to MessTrack Admin</div>
+        </div>
+    </header>
 
-    <!-- Logout Button -->
-    <form action="{{ url_for('adminlogout') }}" method="get">
-        <button type="submit">Logout</button>
-    </form>
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3 d-flex">
+                <div class="feature-card text-center p-4">
+                    <i class="bi bi-calendar3 display-1"></i>
+                    <h2><a href="#" style="text-decoration: none;">Time Table</a></h2>
+                    <p>View and manage the weekly schedule of meals.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 d-flex">
+                <div class="feature-card text-center p-4">
+                    <i class="bi bi-person-check display-1"></i>
+                    <h2><a href="#" style="text-decoration: none;">Daily Attendance</a></h2>
+                    <p>Track daily attendance of students for meals.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 d-flex">
+                <div class="feature-card text-center p-4">
+                    <i class="bi bi-list-ul display-1"></i>
+                    <h2><a href="#" style="text-decoration: none;">Menu Display</a></h2>
+                    <p>Display daily or weekly menu for meals.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 d-flex">
+                <div class="feature-card text-center p-4">
+                    <i class="bi bi-receipt display-1"></i>
+                    <h2><a href="#" style="text-decoration: none;">Bills</a></h2>
+                    <p>Generate monthly bills for mess fees and extras.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 d-flex">
+                <div class="feature-card text-center p-4">
+                    <i class="bi bi-bell-fill display-1"></i>
+                    <h2><a href="#" style="text-decoration: none;">Notifications</a></h2>
+                    <p>Receive updates and alerts regarding mess activities.</p>
+                </div>
+            </div>
+
+
+            <div class="col-md-6 col-lg-3 d-flex">
+                <div class="feature-card text-center p-4">
+                    <i class="bi bi-door-open display-1"></i>
+                    <h2><a href="#" style="text-decoration: none;">Leave</a></h2>
+                    <p>Manage requests for leave from mess facilities.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 d-flex">
+                <div class="feature-card text-center p-4">
+                    <i class="bi bi-chat-left-text-fill display-1"></i>
+                    <h2><a href="#" style="text-decoration: none;">Feedbacks</a>
+                    </h2>
+                    <p>Provide feedback and lodge complaints regarding mess services.</p>
+                </div>
+            </div>
+
+
+            <div class="col-md-6 col-lg-3 d-flex">
+                <div class="feature-card text-center p-4">
+                    <i class="bi bi-envelope-fill display-1"></i>
+                    <h2><a href="#" style="text-decoration: none;">Contact Us</a></h2>
+                    <p>Get in touch with us for any queries or support.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 MessTrack Admin. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='adminindex.js') }}"></script>
 </body>
 
 </html>

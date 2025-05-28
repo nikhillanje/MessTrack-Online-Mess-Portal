@@ -304,6 +304,18 @@ def adminlogout():
     return redirect(url_for('adminlogin'))
 
 
+@app.route('/admintimetable')
+def admintimetable():
+    return render_template('admintimetable.html')
+
+
+@app.route('/adminfeedback')
+def adminfeedback():
+    feedback_data = list(mongo.db.feedback.find({}, {"_id": 0}))
+    return render_template("adminfeedback.html", feedbacks=feedback_data)
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

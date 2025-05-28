@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MessTrack Feedbacks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='adminfeedback.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Feedback Submissions</h1>
+        <table id="feedbackTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Feedback</th>
+                    <th>Suggestion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in feedbacks %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.feedback }}</td>
+                    <td>{{ item.suggestion }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ url_for('adminindex') }}" class="back-button">Back</a>
+
+</body>
+
+</html>
