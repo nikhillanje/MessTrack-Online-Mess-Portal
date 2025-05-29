@@ -7,6 +7,7 @@ from wtforms.validators import InputRequired, Email, ValidationError
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 from flask_mail import Mail
+from datetime import datetime, timedelta
 from functools import wraps
 from flask import session, jsonify
 from flask import session, redirect, url_for, flash
@@ -38,6 +39,7 @@ mail = Mail(app)
 # MongoDB setup
 app.config["MONGO_URI"] = params["mongo_uri"]
 mongo = PyMongo(app)
+attendance_col = mongo.db.attendance
 
 # Flask-Login setup
 login_manager = LoginManager()
@@ -221,9 +223,76 @@ def timetable():
     return render_template('timetable.html', timetable=timetable)
 
 
+# Render attendance page
 @app.route('/attendance')
-def attendence():
+def attendance():
+    if '_id' not in session:
+        return redirect('/login')
+
+    student_id = session['_id']
+    today = datetime.utcnow().date()
+
+    # Find the latest attendance record
+    latest_record = attendance_col.find_one(
+        {"student_id": student_id},
+        sort=[("date", -1)]
+    )
+
+    if latest_record:
+        last_date_str = latest_record["date"]
+        last_date = datetime.strptime(last_date_str, "%Y-%m-%d").date()
+    else:
+        # If no attendance records found, assume first login is today
+        last_date = today
+
+    # Fill missing dates with present="no"
+    missing_dates = []
+    current_date = last_date + timedelta(days=1)
+    while current_date < today:
+        missing_dates.append({
+            "student_id": student_id,
+            "date": current_date.strftime("%Y-%m-%d"),
+            "present": "no",
+            "timestamp": datetime.utcnow()
+        })
+        current_date += timedelta(days=1)
+
+    if missing_dates:
+        attendance_col.insert_many(missing_dates)
+
     return render_template('attendance.html')
+
+# Mark attendance (POST from JS)
+@app.route('/mark_attendance', methods=['POST'])
+def mark_attendance():
+    try:
+        if '_id' not in session:
+            return jsonify({'status': 'unauthorized'}), 401
+
+        data = request.get_json()
+        if not data or 'date' not in data:
+            return jsonify({'status': 'error', 'message': 'Missing date'}), 400
+
+        date = data['date']
+        student_id = session['_id']
+
+        existing = attendance_col.find_one({"date": date, "student_id": student_id})
+        if existing:
+            return jsonify({'status': 'already_marked'})
+
+        attendance_col.insert_one({
+            "student_id": student_id,
+            "date": date,
+            "present": "yes",
+            "timestamp": datetime.utcnow()
+        })
+
+        return jsonify({'status': 'success'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+
 
 @app.route('/menu')
 def menu():
