@@ -104,11 +104,14 @@ def login():
         if form.captcha.data != session.get('captcha_text'):
             flash('Incorrect CAPTCHA.', 'danger')
             session['captcha_text'] = generate_captcha()
+            form.captcha.data = ''
             return render_template('login.html', form=form, captcha=session['captcha_text'])
 
         user_data = mongo.db.users.find_one({'username': form.username.data})
         if user_data and bcrypt.check_password_hash(user_data['password'], form.password.data):
             login_user(User(user_data))
+            session['_id'] = str(user_data['_id'])
+            session['username'] = user_data['username']
             session.pop('captcha_text', None)
             return redirect(url_for('index'))
         else:
@@ -230,66 +233,58 @@ def attendance():
         return redirect('/login')
 
     student_id = session['_id']
-    today = datetime.utcnow().date()
+    today = datetime.utcnow().date().strftime("%Y-%m-%d")
 
-    # Find the latest attendance record
-    latest_record = attendance_col.find_one(
-        {"student_id": student_id},
-        sort=[("date", -1)]
-    )
+    # Check if this student has marked attendance today
+    record = attendance_col.find_one({
+        "student_id": student_id,
+        "date": today,
+        "present": "yes"
+    })
 
-    if latest_record:
-        last_date_str = latest_record["date"]
-        last_date = datetime.strptime(last_date_str, "%Y-%m-%d").date()
-    else:
-        # If no attendance records found, assume first login is today
-        last_date = today
+    attendance_status = "yes" if record else None
 
-    # Fill missing dates with present="no"
-    missing_dates = []
-    current_date = last_date + timedelta(days=1)
-    while current_date < today:
-        missing_dates.append({
-            "student_id": student_id,
-            "date": current_date.strftime("%Y-%m-%d"),
-            "present": "no",
-            "timestamp": datetime.utcnow()
-        })
-        current_date += timedelta(days=1)
+    return render_template('attendance.html', attendance_status=attendance_status, today_date=today)
 
-    if missing_dates:
-        attendance_col.insert_many(missing_dates)
 
-    return render_template('attendance.html')
-
-# Mark attendance (POST from JS)
 @app.route('/mark_attendance', methods=['POST'])
 def mark_attendance():
     try:
         if '_id' not in session:
+            print("User not in session")
             return jsonify({'status': 'unauthorized'}), 401
 
         data = request.get_json()
+        print("Received data:", data)  # DEBUG LINE
+
         if not data or 'date' not in data:
             return jsonify({'status': 'error', 'message': 'Missing date'}), 400
 
         date = data['date']
         student_id = session['_id']
+        student_username = session.get('username', 'unknown')  # safer access
 
         existing = attendance_col.find_one({"date": date, "student_id": student_id})
         if existing:
+            print("Attendance already marked for", student_id, "on", date)
             return jsonify({'status': 'already_marked'})
 
-        attendance_col.insert_one({
+        result = attendance_col.insert_one({
             "student_id": student_id,
+            "student_username": student_username,
             "date": date,
             "present": "yes",
             "timestamp": datetime.utcnow()
         })
 
+        print("Inserted attendance with ID:", result.inserted_id)
         return jsonify({'status': 'success'})
     except Exception as e:
+        print("Error in mark_attendance:", str(e))  # DEBUG LINE
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+
 
 
 
