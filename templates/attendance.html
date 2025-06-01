@@ -12,12 +12,12 @@
         <h2>Mark Your Attendance</h2>
         <form id="attendance-form">
             <label for="date">Date:</label>
-            <input type="date" id="date" name="date">
+            <input type="date" id="date" name="date" disabled>
             <input type="hidden" id="username" name="username" value="{{ session.username }}">
             <button type="submit">Submit Attendance</button>
         </form>
 
-        <button id="back-button" onclick="window.history.back()">Back</button>
+        <button id="back-button" onclick="window.location.href='/index'">Back</button>
 
         <div id="message"></div>
     </div>

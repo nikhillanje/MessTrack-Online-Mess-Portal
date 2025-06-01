@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Student Attendance Status</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='adminattendance.css') }}">
+</head>
+
+<body>
+    <button class="back-btn" onclick="window.location.href='/adminindex'">Back</button>
+    <h1 style="text-align: center;">Student Attendance Status</h1>
+
+    <form id="dateForm" method="GET" action="{{ url_for('adminattendance') }}">
+        <label for="date">Select Date: </label>
+        <input type="date" id="date" name="date" value="{{ selected_date if selected_date else '' }}" required>
+        <button type="submit">Show</button>
+    </form>
+    <span id="selectedDate" style="display: none;">{{ selected_date }}</span>
+
+    {% if selected_date %}
+    <!-- Show count summary -->
+    <div class="summary-box">
+        Date: {{ selected_date }} |
+        Present: <span class="present">{{ present_count }}</span> |
+        Absent: <span class="absent">{{ absent_count }}</span>
+    </div>
+
+    <!-- Attendance table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Mobile Number</th>
+                <th>Email</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="studentTable">
+            {% for student in students %}
+            <tr>
+                <td>{{ student.name }}</td>
+                <td>{{ student.mobile_no }}</td>
+                <td>{{ student.email }}</td>
+                <td class="{{ 'present' if student.status == 'Present' else 'absent' }}">{{ student.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    <div class="download-container">
+        <button id="downloadPDF">Download as PDF</button>
+    </div>
+    {% endif %}
+
+
+
+    <script src="{{ url_for('static', filename='adminattendance.js') }}"></script>
+</body>
+
+</html>

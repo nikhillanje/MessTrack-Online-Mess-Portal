@@ -9,6 +9,7 @@ from werkzeug.security import generate_password_hash
 from flask_mail import Mail
 from datetime import datetime, timedelta
 from functools import wraps
+from bson import ObjectId
 from flask import session, jsonify
 from flask import session, redirect, url_for, flash
 from flask_bcrypt import Bcrypt
@@ -40,6 +41,8 @@ mail = Mail(app)
 app.config["MONGO_URI"] = params["mongo_uri"]
 mongo = PyMongo(app)
 attendance_col = mongo.db.attendance
+users_collection = mongo.db.users
+attendance_collection = mongo.db.attendance
 
 # Flask-Login setup
 login_manager = LoginManager()
@@ -255,7 +258,6 @@ def mark_attendance():
             return jsonify({'status': 'unauthorized'}), 401
 
         data = request.get_json()
-        print("Received data:", data)  # DEBUG LINE
 
         if not data or 'date' not in data:
             return jsonify({'status': 'error', 'message': 'Missing date'}), 400
@@ -280,11 +282,7 @@ def mark_attendance():
         print("Inserted attendance with ID:", result.inserted_id)
         return jsonify({'status': 'success'})
     except Exception as e:
-        print("Error in mark_attendance:", str(e))  # DEBUG LINE
         return jsonify({'status': 'error', 'message': str(e)}), 500
-
-
-
 
 
 
@@ -430,6 +428,45 @@ def admincontact():
 def adminallusers():
     users = mongo.db.users.find()
     return render_template('adminallusers.html', users=users)
+
+@app.route('/adminattendance')
+def adminattendance():
+    selected_date = request.args.get('date')  # Get date from query string
+    students_data = []
+    present_count = 0
+    absent_count = 0
+
+    if selected_date:
+        # Fetch all present attendance for selected date
+        attendance_records = list(attendance_collection.find({
+            'date': selected_date,
+            'present': 'yes'
+        }))
+        present_ids = {record['student_id'] for record in attendance_records}
+
+        # Fetch all users
+        users = list(users_collection.find())
+        for user in users:
+            user_id = str(user['_id'])
+            is_present = user_id in present_ids
+            status = 'Present' if is_present else 'Absent'
+            students_data.append({
+                'name': user.get('name', ''),
+                'mobile_no': user.get('mobile_no', ''),
+                'email': user.get('email', ''),
+                'status': status
+            })
+
+        # Count present and absent students
+        present_count = sum(1 for s in students_data if s['status'] == 'Present')
+        absent_count = sum(1 for s in students_data if s['status'] == 'Absent')
+
+    return render_template('adminattendance.html',
+                           students=students_data,
+                           selected_date=selected_date,
+                           present_count=present_count,
+                           absent_count=absent_count)
+
 
 
 

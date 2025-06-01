@@ -1,0 +1,227 @@
+/* Back button style */
+.back-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #2f3640;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+}
+
+h1 {
+    text-align: center !important;
+    margin-top: 40px;
+    /* optional spacing */
+    margin-bottom: 30px;
+    color: #2f3640;
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+
+.back-btn:hover {
+    background-color: #444b54;
+}
+
+/* Form container and input */
+form#dateForm {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 18px;
+}
+
+form#dateForm label {
+    font-weight: 600;
+    margin-right: 10px;
+    color: #2f3640;
+}
+
+form#dateForm input[type="date"] {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+    outline: none;
+}
+
+form#dateForm input[type="date"]:focus {
+    border-color: #2f3640;
+}
+
+form#dateForm button {
+    margin-left: 12px;
+    padding: 9px 18px;
+    font-size: 16px;
+    background-color: #2f3640;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form#dateForm button:hover {
+    background-color: #444b54;
+}
+
+/* Info message styling */
+.info-msg {
+    text-align: center;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+/* Loading text styling */
+.loading {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    color: #2f3640;
+    margin-bottom: 20px;
+}
+
+/* Table style improvements */
+table {
+    width: 90%;
+    margin: 0 auto 40px;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th,
+td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+    color: #2f3640;
+}
+
+th {
+    background-color: #2f3640;
+    color: #fff;
+    font-weight: 700;
+}
+
+.present {
+    color: green;
+    font-weight: 700;
+}
+
+.absent {
+    color: red;
+    font-weight: 700;
+}
+
+tr:hover {
+    background-color: #f1f2f6;
+}
+
+/* Responsive: smaller screens */
+@media (max-width: 600px) {
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    thead tr {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 15px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        padding: 12px 15px;
+    }
+
+    td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        text-align: left;
+        font-size: 14px;
+        color: #2f3640;
+    }
+
+    td:before {
+        position: absolute;
+        top: 12px;
+        left: 15px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: 600;
+        color: #2f3640;
+    }
+
+    td:nth-of-type(1):before {
+        content: "Student Name";
+    }
+
+    td:nth-of-type(2):before {
+        content: "Mobile Number";
+    }
+
+    td:nth-of-type(3):before {
+        content: "Email";
+    }
+
+    td:nth-of-type(4):before {
+        content: "Status";
+    }
+}
+
+/* Attendance summary styling */
+.summary-box {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.summary-box .present {
+    color: green;
+}
+
+.summary-box .absent {
+    color: red;
+}
+
+.download-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#downloadPDF {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#downloadPDF:hover {
+    background-color: #0056b3;
+}
