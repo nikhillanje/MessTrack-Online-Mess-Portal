@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='adminapproval.css') }}">
+    <title>Admin Approval</title>
+</head>
+
+<body>
+    <h1>Approvals</h1>
+
+    {% set user_list = users | list %}
+    {% if user_list %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in user_list %}
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <form method="POST">
+                        <input type="hidden" name="user_id" value="{{ user._id }}">
+                        <button type="submit" name="action" value="approve">Approve</button>
+                        <button type="submit" name="action" value="decline">Decline</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No pending user approval requests.</p>
+    {% endif %}
+    <a href="{{ url_for('adminindex') }}" class="back-button">Back</a>
+
+</body>
+
+</html>

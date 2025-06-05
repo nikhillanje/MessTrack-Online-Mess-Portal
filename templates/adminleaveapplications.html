@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MessTrack - Leave Application View</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='adminleaveapplications.css') }}">
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Leave Application MessTrack</h2>
+
+        <p>Date: {{ leave_application.date or 'N/A' }}</p>
+
+        <p>
+            I, {{ leave_application.student_name }}, studying in year {{ leave_application.student_class }},
+            branch {{ leave_application.room_no }}, want to leave MessTrack for {{ leave_application.no_of_days }} days,
+            from {{ leave_application.from_date }} to {{ leave_application.to_date }}, as I am going out of
+            station/native place.
+            I will report back to the MessTrack on {{ leave_application.return_date }}.
+        </p>
+
+        <p>Kindly grant me the leave.</p>
+
+        <p>Student Contact No.: {{ leave_application.student_contact }}.</p>
+
+        <p>Parent's Contact No.: {{ leave_application.parent_contact }}.</p>
+
+        <p>Parent's Consent: {{ leave_application.parent_consent }}.</p>
+
+        <p><a href="{{ url_for('adminleave') }}">Back to list</a></p>
+        <button id="downloadPdfBtn">Download as PDF</button>
+
+    </div>
+
+
+    <script src="{{ url_for('static', filename='adminleaveapplications.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</body>
+
+</html>

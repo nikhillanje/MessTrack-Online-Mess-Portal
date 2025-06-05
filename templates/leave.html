@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MessTrack - Leave Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='leave.css') }}">
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Leave Application MessTrack</h2>
+
+        <form action="/leave" method="POST">
+            <p>Date: <input type="text" value="{{ current_date }}" readonly></p>
+
+            <p>
+                I, <input type="text" name="student_name" value="{{ student_name }}">,
+                studying in year <input type="text" name="student_class" value="{{ student_class }}">,
+            </p>
+
+            <p>
+                Branch is <input type="text" name="room_no" value="{{ room_no }}">,
+                want's to leave MessTrack for
+                <input type="number" name="no_of_days" required> days,
+            </p>
+
+            <p>
+                from <input type="date" name="from_date" required> to
+                <input type="date" name="to_date" required> as I am going out of station/native place.
+            </p>
+
+            <p>
+                I will report back to the MessTrack on <input type="date" name="return_date" required>.
+            </p>
+
+            <p>Kindly grant me the leave.</p>
+
+            <br>
+
+            <p>Student Contact No.: <input type="text" name="student_contact" value="{{ student_contact }}"
+                    placeholder="xxxxxxxxxx">
+            </p>
+
+            <p>Parent's Contact No.: <input type="text" name="parent_contact" value="{{ parent_contact }}"
+                    placeholder="xxxxxxxxxx"></p>
+
+            <p>Parent's Consent: <input type="text" name="parent_consent" placeholder="Yes / No" required></p>
+
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
+</body>
+
+</html>

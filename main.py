@@ -2,11 +2,13 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
+from datetime import date
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField
 from wtforms.validators import InputRequired, Email, ValidationError
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 from flask_mail import Mail
+from bson import ObjectId
 from datetime import datetime, timedelta
 from functools import wraps
 from bson import ObjectId
@@ -112,6 +114,13 @@ def login():
 
         user_data = mongo.db.users.find_one({'username': form.username.data})
         if user_data and bcrypt.check_password_hash(user_data['password'], form.password.data):
+            # Check if user is confirmed by admin
+            if not user_data.get('confirmed', False):
+                flash('Your account is not confirmed by admin yet.', 'warning')
+                session['captcha_text'] = generate_captcha()
+                form.captcha.data = ''
+                return render_template('login.html', form=form, captcha=session['captcha_text'])
+
             login_user(User(user_data))
             session['_id'] = str(user_data['_id'])
             session['username'] = user_data['username']
@@ -122,6 +131,7 @@ def login():
             session['captcha_text'] = generate_captcha()
 
     return render_template('login.html', form=form, captcha=session['captcha_text'])
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -137,17 +147,19 @@ def register():
             "email": form.email.data,
             "academic_branch": form.academic_branch.data,
             "academic_year": form.academic_year.data,
-            "gender": form.gender.data
+            "gender": form.gender.data,
+            "status": "Pending"
         }
         mongo.db.users.insert_one(new_user)
-        flash('Registered successfully. Please login.', 'success')
+        flash('Registered successfully. Wait For Approval then login.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
 @app.route('/index')
 @login_required
 def index():
-    return render_template('index.html')
+    username = session.get('username')
+    return render_template('index.html' , username=username)
 
 
 @app.route("/feedback", methods=['GET', 'POST'])
@@ -295,13 +307,42 @@ def menu():
 def billing():
     return render_template('billing.html')
 
-@app.route('/notifications')
-def notifications():
-    return render_template('notifications.html')
+# User Notification Route
+@app.route('/notification')
+def notification():
+    notifications = mongo.db.notification.find().sort('datetime', -1)
+    return render_template('notifications.html', notifications=notifications)
 
-@app.route('/leave')
-def leave_messtrack():
-    return render_template('leave.html')
+@app.route('/leave', methods=['GET', 'POST'])
+def leave():
+    if request.method == 'POST':
+        leave_data = {
+            "date": date.today().strftime("%d-%m-%Y"),
+            "student_name": request.form.get('student_name'),
+            "student_class": request.form.get('student_class'),
+            "room_no": request.form.get('room_no'),
+            "no_of_days": int(request.form.get('no_of_days')),
+            "from_date": request.form.get('from_date'),
+            "to_date": request.form.get('to_date'),
+            "return_date": request.form.get('return_date'),
+            "student_contact": request.form.get('student_contact'),
+            "parent_contact": request.form.get('parent_contact'),
+            "parent_consent": request.form.get('parent_consent'),
+        }
+
+        mongo.db.leave.insert_one(leave_data)
+        return redirect(url_for('leave_success'))
+
+    return render_template("leave.html", current_date=date.today().strftime("%d-%m-%Y"),
+                           student_name='', student_class='', room_no='',
+                           student_contact='', parent_contact='')
+
+@app.route('/leave-success')
+def leave_success():
+    return """
+    <h2>Leave application submitted successfully!</h2>
+    <p><a href='/leave'>Submit another</a></p>
+    """
 
 
 
@@ -372,7 +413,10 @@ def admin_login_required(f):
 @app.route('/adminindex')
 @admin_login_required
 def adminindex():
-    return render_template('adminindex.html')
+    pending_count = mongo.db.users.count_documents({"status": "Pending"})
+    has_pending_requests = pending_count > 0
+    return render_template('adminindex.html', has_pending_requests=has_pending_requests)
+
 
 
 @app.route('/adminlogout')
@@ -429,6 +473,31 @@ def adminallusers():
     users = mongo.db.users.find()
     return render_template('adminallusers.html', users=users)
 
+
+
+
+@app.route('/adminapproval', methods=['GET', 'POST'])
+def adminapproval():
+    if request.method == 'POST':
+        user_id = request.form.get('user_id')
+        action = request.form.get('action')
+
+        if action == 'approve':
+            mongo.db.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": {"status": "Approved", "confirmed": True}}
+            )
+        elif action == 'decline':
+            mongo.db.users.delete_one({"_id": ObjectId(user_id)})
+    
+
+    users = mongo.db.users.find({"status": "Pending"})
+    return render_template('adminapproval.html', users=users)
+
+
+
+
+
 @app.route('/adminattendance')
 def adminattendance():
     selected_date = request.args.get('date')  # Get date from query string
@@ -466,6 +535,43 @@ def adminattendance():
                            selected_date=selected_date,
                            present_count=present_count,
                            absent_count=absent_count)
+
+
+
+# Admin Notification Route
+@app.route('/adminnotification', methods=['GET', 'POST'])
+def adminnotification():
+    if request.method == 'POST':
+        message = request.form['message']
+        if message.strip():
+            now = datetime.now()
+            notification = {
+                'message': message,
+                'datetime': now.strftime('%Y-%m-%d %H:%M:%S')
+            }
+            mongo.db.notification.insert_one(notification)
+            return redirect(url_for('adminnotification'))
+    return render_template('adminnotification.html')
+
+
+
+
+
+# Admin route: List all leave applications
+@app.route('/adminleave')
+def adminleave():
+    leave_applications = list(mongo.db.leave.find().sort("date", -1))  # sorted by date descending
+    return render_template("adminleave.html", leave_applications=leave_applications)
+    
+
+# Admin route: View single leave application details
+@app.route('/adminleaveapplications/<application_id>')
+def adminleaveapplications(application_id):
+    leave_application = mongo.db.leave.find_one({"_id": ObjectId(application_id)})
+    if not leave_application:
+        return "<h3>Application not found</h3><p><a href='/adminleave'>Back to list</a></p>"
+    return render_template("adminleaveapplications.html", leave_application=leave_application)
+
 
 
 

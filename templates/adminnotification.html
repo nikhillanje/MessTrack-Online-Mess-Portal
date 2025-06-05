@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Send Notification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='adminnotification.css') }}">
+</head>
+
+<body>
+    <a href="{{ url_for('adminindex') }}" class="back-button">Back</a>
+    <div class="container">
+        <h2>Send Notification</h2>
+        <form method="POST">
+            <textarea name="message" placeholder="Enter your notification..." required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Indian Food Menu</title>
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='menu.css') }}" />
+</head>
+
+<body>
+    <a href="{{ url_for('index') }}" class="btn btn-warning back-button">Back</a>
+    <div class="container">
+        <h2 class="text-center mb-4">Menu MessTrack</h2>
+        <table class="table table-bordered menu-table">
+            <thead>
+                <tr>
+                    <th>Breakfast</th>
+                    <th>Lunch</th>
+                    <th>Dinner</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p>Idli Sambhar</p>
+                        <p>Poha</p>
+                        <p>Aloo Paratha</p>
+                        <p>Masala Dosa</p>
+                        <p>Upma</p>
+                        <p>Vada</p>
+                        <p>Pav Bhaji</p>
+                        <p>Chole Bhature</p>
+                        <p>Stuffed Paratha</p>
+                        <p>Oats Porridge</p>
+                        <p>Chai & Biscuits</p>
+                        <p>Pesarattu</p>
+                        <p>Dhokla</p>
+                        <p>Misal Pav</p>
+                        <p>Sabudana Khichdi</p>
+                    </td>
+                    <td>
+                        <p>Rajma Chawal</p>
+                        <p>Chole & Bhature</p>
+                        <p>Paneer Butter Masala</p>
+                        <p>Dal Tadka</p>
+                        <p>Jeera Rice</p>
+                        <p>Veg Biryani</p>
+                        <p>Chapati with Bhindi</p>
+                        <p>Mixed Veg Curry</p>
+                        <p>Aloo Gobi</p>
+                        <p>Baingan Bharta</p>
+                        <p>Curd Rice</p>
+                        <p>Palak Paneer</p>
+                        <p>Matar Paneer</p>
+                        <p>Lassi / Buttermilk</p>
+                        <p>Roti with Moong Dal</p>
+                    </td>
+                    <td>
+                        <p>Chicken Curry & Rice</p>
+                        <p>Roti with Egg Curry</p>
+                        <p>Paneer Tikka</p>
+                        <p>Fish Fry & Rice</p>
+                        <p>Pulao & Raita</p>
+                        <p>Chapati & Vegetable Kurma</p>
+                        <p>Dal Makhani</p>
+                        <p>Butter Chicken</p>
+                        <p>Veg Kofta</p>
+                        <p>Shahi Paneer</p>
+                        <p>Methi Thepla</p>
+                        <p>Tomato Rasam</p>
+                        <p>Chicken Biryani</p>
+                        <p>Gulab Jamun</p>
+                        <p>Rice Kheer</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

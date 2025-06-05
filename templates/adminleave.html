@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin - Leave Applications List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='adminleave.css') }}" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>Leave Applications</h1>
+
+        {% if leave_applications %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Date</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in leave_applications %}
+                <tr>
+                    <td>{{ app.student_name }}</td>
+                    <td>{{ app.date }}</td>
+                    <td>
+                        <a class="btn-view"
+                            href="{{ url_for('adminleaveapplications', application_id=app._id) }}">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No leave applications found.</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>

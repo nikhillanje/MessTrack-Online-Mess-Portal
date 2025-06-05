@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Notifications</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='notification.css') }}">
+</head>
+
+<body>
+    <a href="{{ url_for('index') }}" class="back-button">Back</a>
+    <div class="container">
+        <h2>Notifications</h2>
+        {% for note in notifications %}
+        <div class="notification">
+            <p>{{ note.message }}</p>
+            <span class="time">{{ note.datetime }}</span>
+        </div>
+        {% else %}
+        <p>No notifications yet.</p>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

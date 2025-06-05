@@ -270,3 +270,29 @@ nav {
 .dark-mode .sidebar ul li a:hover {
     color: #90caf9;
 }
+
+
+.green-dot {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    background-color: rgb(36, 206, 36);
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: middle;
+    animation: blink-green 1.5s infinite;
+}
+
+@keyframes blink-green {
+
+    0%,
+    50%,
+    100% {
+        opacity: 1;
+    }
+
+    25%,
+    75% {
+        opacity: 0;
+    }
+}
