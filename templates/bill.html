@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MessTrack - Bill</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bill.css') }}">
+
+
+</head>
+
+<body>
+    <a href="{{ url_for('index') }}" class="back-button">Back</a>
+    <div class="container">
+
+        <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Messtrack Logo">
+        <h2>Mess Bill - {{ current_month }}</h2>
+        <p>This is your monthly mess bill. Please pay it on time to avoid penalties.</p>
+        <h3>Amount: ₹{{ amount }}</h3>
+
+        {% if is_paid %}
+        <p style="color: green;"><strong>Payment Status: Paid</strong></p>
+        {% else %}
+        <form action="/pay" method="get">
+            <button class="button">Pay Now</button>
+        </form>
+        {% endif %}
+    </div>
+</body>
+
+</html>

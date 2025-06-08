@@ -17,6 +17,9 @@ from flask import session, redirect, url_for, flash
 from flask_bcrypt import Bcrypt
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId 
+from flask import send_file
+from io import BytesIO
+from reportlab.pdfgen import canvas
 import random, string
 import json
 
@@ -46,7 +49,7 @@ attendance_col = mongo.db.attendance
 users_collection = mongo.db.users
 attendance_collection = mongo.db.attendance
 
-# Flask-Login setup
+# Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -303,11 +306,48 @@ def mark_attendance():
 def menu():
     return render_template('menu.html')
 
-@app.route('/billing')
-def billing():
-    return render_template('billing.html')
+@app.route('/bill')
+def bill():
+    if '_id' not in session:
+        return redirect('/login')
 
-# User Notification Route
+    student_id = ObjectId(session['_id'])  # Convert string to ObjectId
+    current_month = datetime.now().strftime("%B %Y")
+
+    bill = mongo.db.bill.find_one({'month': current_month})
+    payment = mongo.db.payments.find_one({'student_id': student_id, 'month': current_month})
+
+    return render_template('bill.html',
+                           amount=bill['amount'] if bill else 0,
+                           current_month=current_month,
+                           is_paid=bool(payment))
+
+
+
+@app.route('/pay', methods=['GET', 'POST'])
+def pay():
+    if '_id' not in session:
+        return redirect('/login')
+
+    student_id = ObjectId(session['_id'])
+    current_month = datetime.now().strftime("%B %Y")
+
+    if request.method == 'POST':
+        mongo.db.payments.insert_one({
+            'student_id': student_id,
+            'month': current_month,
+            'status': 'success',
+            'timestamp': datetime.now()
+        })
+        return redirect('/index')
+
+
+    bill = mongo.db.bill.find_one({'month': current_month})
+    return render_template('pay.html', amount=bill['amount'] if bill else 0, current_month=current_month)
+
+
+
+
 @app.route('/notification')
 def notification():
     notifications = mongo.db.notification.find().sort('datetime', -1)
@@ -374,7 +414,7 @@ def adminlogin():
     # Check CAPTCHA first
     if captcha_input.upper() != session.get('captcha_text', '').upper():
         flash("Incorrect CAPTCHA.", "danger")
-        session['captcha_text'] = generate_captcha()  # Regenerate CAPTCHA on failure
+        session['captcha_text'] = generate_captcha()  # Regenerate CAPTCHA if failure
         return render_template("adminlogin.html", captcha=session['captcha_text'])
 
     # CAPTCHA correct, check admin credentials
@@ -571,6 +611,65 @@ def adminleaveapplications(application_id):
     if not leave_application:
         return "<h3>Application not found</h3><p><a href='/adminleave'>Back to list</a></p>"
     return render_template("adminleaveapplications.html", leave_application=leave_application)
+
+
+
+
+@app.route('/adminbill')
+def adminbill():
+    if 'admin_email' not in session or session['admin_email'] != 'messtrack@admin.com':
+        return redirect('/adminlogin')
+
+    users = mongo.db.users.find()
+    current_month = datetime.now().strftime("%B %Y")
+    payments = list(mongo.db.payments.find({'month': current_month}))
+
+    paid_ids = [str(p['student_id']) for p in payments]
+
+    student_data = []
+    for user in users:
+        if user.get('email') == 'messtrack@admin.com':
+            continue
+
+        is_paid = str(user['_id']) in paid_ids
+        student_data.append({
+            'name': user.get('username', ''),
+            'contact': user.get('contact', ''),
+            'status': 'Paid' if is_paid else 'Not Paid',
+            'month': current_month
+        })
+
+    return render_template('adminbill.html', students=student_data, month=current_month)
+
+
+@app.route('/adminsetbill', methods=['GET', 'POST'])
+def adminsetbill():
+    if 'admin_email' not in session or session['admin_email'] != 'messtrack@admin.com':
+        return redirect('/adminlogin')
+
+    current_month = datetime.now().strftime("%B %Y")
+
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+
+        if not amount or not amount.isdigit():
+            flash('Please enter a valid numeric amount.', 'danger')
+            return redirect('/adminsetbill')
+
+        mongo.db.bill.update_one(
+            {'month': current_month},
+            {'$set': {'amount': int(amount)}},
+            upsert=True
+        )
+        flash(f'Monthly bill set to ₹{amount} for {current_month}', 'success')
+        return redirect('/adminsetbill')
+
+    existing = mongo.db.bill.find_one({'month': current_month})
+    current_amount = existing['amount'] if existing else ''
+
+    return render_template('adminsetbill.html',
+                           current_month=current_month,
+                           current_amount=current_amount)
 
 
 

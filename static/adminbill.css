@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7f8;
+    margin: 40px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+table {
+    margin: auto;
+    border-collapse: collapse;
+    width: 80%;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 12px 20px;
+    text-align: left;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.paid {
+    color: green;
+    font-weight: bold;
+}
+
+.not-paid {
+    color: red;
+    font-weight: bold;
+}
+
+.nav {
+    position: relative;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.nav a:hover {
+    color: #cce5ff;
+}
+
+.back-btn,
+.btn {
+    background-color: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.back-btn:hover,
+.btn:hover {
+    background-color: #0056b3;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='adminbill.css') }}">
+    <title>Messtrack - Student Payment Status</title>
+</head>
+
+<body>
+
+    <div class="nav">
+        <a href="/adminsetbill" class="btn">Set Monthly Bill</a>
+        <a href="{{ url_for('adminindex') }}" class="back-btn">Back</a>
+    </div>
+
+
+    <h1>Student Payment Status for {{ month }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Payment Status</th>
+                <th>Month</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.name }}</td>
+                <td>{{ student.contact }}</td>
+                <td class="{{ 'paid' if student.status == 'Paid' else 'not-paid' }}">{{ student.status }}</td>
+                <td>{{ student.month }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+
+</html>

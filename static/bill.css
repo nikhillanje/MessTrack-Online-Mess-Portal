@@ -1,0 +1,65 @@
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            background-color: #f9f9f9;
+            margin: 0;
+        }
+
+        .container {
+            position: relative;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 30px 40px 40px 40px;
+            width: 60%;
+            margin: auto;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+
+        h2,
+        h3,
+        p {
+            margin: 10px 0;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .button:hover {
+            background: #006400;
+            /* darker green on hover */
+        }
+
+        /* Back button styling */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 14px;
+            font-size: 14px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #333;
+        }
