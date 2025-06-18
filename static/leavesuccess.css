@@ -1,3 +1,4 @@
+/* Reset and base styles */
 * {
     margin: 0;
     padding: 0;
@@ -5,6 +6,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Body with gradient and center alignment */
 body {
     background: linear-gradient(135deg, #ae91db, #ab9c9c);
     display: flex;
@@ -14,7 +16,8 @@ body {
     padding: 20px;
 }
 
-.container {
+/* Centered success box */
+.success-box {
     background-color: #e8e0e0;
     padding: 40px;
     border-radius: 16px;
@@ -24,49 +27,29 @@ body {
     text-align: center;
 }
 
-.container h2 {
+.success-box h2 {
     margin-bottom: 20px;
-    font-size: 28px;
+    font-size: 26px;
     color: #333;
 }
 
-.container p {
-    font-size: 20px;
-    margin-bottom: 30px;
+.success-box p {
+    font-size: 18px;
     color: #444;
-}
-
-button {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 8px;
-    background-color: #7b2ff7;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #5e20c6;
+    margin-bottom: 30px;
 }
 
 /* Back Button */
 .back-button {
-    position: absolute;
-    top: 20px;
-    right: 30px;
     font-size: 14px;
-    background-color: #6c757d;
+    background-color: #7b2ff7;
     color: #ffffff;
-    padding: 8px 14px;
+    padding: 10px 20px;
     text-decoration: none;
     border-radius: 8px;
     transition: background-color 0.3s ease;
-    border: none;
 }
 
 .back-button:hover {
-    background-color: #5a6268;
+    background-color: #5e20c6;
 }

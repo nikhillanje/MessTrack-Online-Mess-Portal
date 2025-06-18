@@ -10,27 +10,33 @@
 </head>
 
 <body>
-    <a href="{{ url_for('index') }}" class="back-button" title="Go back">×</a>
+    <a href="{{ url_for('index') }}" class="back-button" title="Go back">Back</a>
 
-    {% if success %}
-    <div class="alert alert-success text-center" role="alert">
+    {% if success == False %}
+    <div class="alert alert-danger text-center" role="alert">
         Feedback is Not Sent!
+    </div>
+    {% elif success == True %}
+    <div class="alert alert-success text-center" role="alert">
+        Feedback Sent Successfully!
     </div>
     {% endif %}
 
-    <form class="feedback-form" action="/feedback" method="POST">
+    <form class="feedback-form" action="/feedback" method="POST" novalidate>
         <h2 class="text-center mb-4">Mess Feedback</h2>
 
         <!-- Name -->
         <div class="mb-3">
             <label for="name" class="form-label">Name:</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required />
+            <div class="invalid-feedback">Enter valid Name</div>
         </div>
 
         <!-- Email -->
         <div class="mb-3">
             <label for="email" class="form-label">Email:</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required />
+            <div class="invalid-feedback">Enter valid Email</div>
         </div>
 
         <!-- Feedback -->
@@ -45,11 +51,15 @@
             <label for="suggestion" class="form-label">Suggestions for Improvement:</label>
             <textarea class="form-control" id="suggestion" name="suggestion" rows="4"
                 placeholder="Any suggestions..."></textarea>
+            <div class="invalid-feedback">Enter valid Suggestions</div>
         </div>
 
         <!-- Submit -->
-        <button type="submit" class="btn btn-custom w-100">Submit Feedback</button>
+        <button type="submit" class="submit-button w-50">Submit Feedback</button>
     </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='feedback.js') }}"></script>
 </body>
 
 </html>

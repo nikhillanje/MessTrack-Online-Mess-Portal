@@ -1,52 +1,74 @@
+/* Reset & Base Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
     margin: 40px;
-    background-color: #f7f9fc;
     color: #333;
 }
 
+/* Heading */
 h1 {
     text-align: center;
     margin-bottom: 30px;
-    font-size: 2rem;
+    font-size: 2.2rem;
     color: #2c3e50;
 }
 
+/* Table Styling */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 thead {
-    background-color: #3498db;
+    background-color: #6c4bbb;
     color: white;
 }
 
 th,
 td {
-    padding: 12px 15px;
+    padding: 14px 18px;
     border: 1px solid #ddd;
     text-align: left;
+    font-size: 15px;
+    color: #2f3640;
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #f9f9f9;
 }
 
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+/* Form Buttons Inside Table */
 form {
     display: flex;
     gap: 10px;
+    justify-content: center;
 }
 
 button {
-    padding: 6px 12px;
+    padding: 8px 16px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
 }
 
 button[name="action"][value="approve"] {
@@ -54,11 +76,20 @@ button[name="action"][value="approve"] {
     color: white;
 }
 
+button[name="action"][value="approve"]:hover {
+    background-color: #219653;
+}
+
 button[name="action"][value="decline"] {
     background-color: #e74c3c;
     color: white;
 }
 
+button[name="action"][value="decline"]:hover {
+    background-color: #c0392b;
+}
+
+/* Paragraph Info */
 p {
     text-align: center;
     font-size: 1.1rem;
@@ -66,20 +97,82 @@ p {
     margin-top: 40px;
 }
 
+/* Back Button */
 .back-button {
     display: block;
     width: fit-content;
-    margin: 20px auto;
+    margin: 30px auto;
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #6c4bbb;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 6px;
     font-weight: bold;
     transition: background-color 0.3s ease;
     text-align: center;
 }
 
 .back-button:hover {
-    background-color: #45a049;
+    background-color: #543d9d;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    thead tr {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 15px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
+        padding: 10px 15px;
+    }
+
+    td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    td:before {
+        position: absolute;
+        top: 12px;
+        left: 15px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: 600;
+        color: #2f3640;
+    }
+
+    /* Adjust based on actual column labels */
+    td:nth-of-type(1):before {
+        content: "Column 1";
+    }
+
+    td:nth-of-type(2):before {
+        content: "Column 2";
+    }
+
+    td:nth-of-type(3):before {
+        content: "Column 3";
+    }
+
+    td:nth-of-type(4):before {
+        content: "Column 4";
+    }
 }

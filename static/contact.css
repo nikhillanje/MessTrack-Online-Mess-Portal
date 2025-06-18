@@ -1,91 +1,183 @@
-/* Background & Fonts */
-body {
-    background: linear-gradient(135deg, #ae91db, #ab9c9c);
+/* Reset & Base Styles */
+* {
     margin: 0;
     padding: 0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Form (same as feedback-form) */
+/* Page Background */
+body {
+    background: linear-gradient(135deg, #ae91db, #ab9c9c);
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-y: auto;
+}
+
+/* Feedback Form Container */
 .feedback-form {
-    width: 100%;
-    max-width: 640px;
+    background-color: #e8e0e0;
     padding: 40px 30px;
-    margin-top: -40px;
-    /* Move form 40px upward */
+    border-radius: 20px;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 20px;
 }
 
 /* Heading */
 .feedback-form h2 {
     font-size: 28px;
-    color: #fff;
+    color: #34568B;
     margin-bottom: 30px;
-    text-align: center;
+    font-weight: 600;
 }
 
-/* Label Styling */
+/* Labels */
 .feedback-form label {
     display: block;
     margin-bottom: 6px;
     font-weight: 500;
-    color: #fff;
+    color: #333;
+    text-align: left;
 }
 
-/* Input & Textarea Styling */
+/* Inputs & Textareas */
 .feedback-form input[type="text"],
 .feedback-form input[type="email"],
 .feedback-form textarea {
     width: 100%;
     padding: 12px;
-    font-size: 15px;
+    font-size: 16px;
     border-radius: 10px;
     border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
     margin-bottom: 20px;
-    background-color: rgba(230, 225, 225, 0.95);
-    transition: 0.3s ease;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    resize: vertical;
 }
 
 .feedback-form input:focus,
 .feedback-form textarea:focus {
     border-color: #7b2ff7;
-    outline: none;
     box-shadow: 0 0 4px rgba(123, 47, 247, 0.5);
+    outline: none;
 }
 
-/* Submit Button */
+/* Submit Button with Updated Styling */
 .btn-custom {
     width: 100%;
     padding: 14px;
     font-size: 17px;
     font-weight: 600;
     border-radius: 12px;
-    background-color: #ff6f61;
+    background-color: blueviolet;
     color: #fff;
     border: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     transition: background 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
 }
 
 .btn-custom:hover {
-    background-color: #e64a3c;
+    background: linear-gradient(135deg, #6a1bd9, #e141b4);
     transform: scale(1.03);
 }
 
-/* Back Button */
 .back-button {
-    position: absolute;
+    position: fixed;
     top: 20px;
-    right: 30px;
-    font-size: 32px;
-    font-weight: bold;
-    color: #ffffff;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: #fff;
     text-decoration: none;
-    background: none;
-    border: none;
-    box-shadow: none;
-    cursor: pointer;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 999;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 5px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .feedback-form {
+        padding: 30px 20px;
+    }
+}
+
+
+/* Responsive Enhancements */
+@media (max-width: 768px) {
+    body {
+        padding: 20px 10px;
+        align-items: flex-start;
+    }
+
+    .feedback-form {
+        padding: 25px 15px;
+        margin-top: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .feedback-form h2 {
+        font-size: 22px;
+    }
+
+    .feedback-form input[type="text"],
+    .feedback-form input[type="email"],
+    .feedback-form textarea {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .btn-custom {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .back-button {
+        font-size: 20px;
+        padding: 8px 10px;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .feedback-form {
+        padding: 20px 12px;
+    }
+
+    .feedback-form h2 {
+        font-size: 20px;
+    }
+
+    .btn-custom {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .back-button {
+        font-size: 18px;
+        padding: 6px 8px;
+    }
 }

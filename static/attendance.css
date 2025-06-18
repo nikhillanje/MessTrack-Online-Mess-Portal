@@ -1,57 +1,79 @@
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Body with Gradient Background */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f4f8;
+    background: linear-gradient(135deg, #ae91db, #ab9c9c);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    min-height: 100vh;
+    padding: 20px;
 }
 
+/* Attendance Container */
 .attendance-container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 300px;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    width: 320px;
+    max-width: 90%;
     text-align: center;
 }
 
-h2 {
-    margin-bottom: 20px;
+/* Heading */
+.attendance-container h2 {
+    margin-bottom: 24px;
+    font-size: 24px;
     color: #333;
 }
 
+/* Label */
 label {
     display: block;
-    margin-bottom: 5px;
-    color: #555;
+    margin-bottom: 6px;
+    color: #444;
+    font-weight: 500;
     text-align: left;
 }
 
-input[type="date"],
-button {
+/* Inputs */
+input[type="date"] {
     width: 100%;
     padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
     font-size: 14px;
+    margin-bottom: 16px;
 }
 
+/* Main Button */
 button {
-    background-color: #4caf50;
-    color: white;
+    width: 100%;
+    padding: 12px;
     border: none;
+    border-radius: 8px;
+    background-color: #7b2ff7;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #5e20c6;
 }
 
+/* Back Button */
 #back-button {
-    margin-top: 15px;
+    margin-top: 16px;
     background-color: #f44336;
 }
 
@@ -59,7 +81,9 @@ button:hover {
     background-color: #d32f2f;
 }
 
+/* Optional Message */
 #message {
-    margin-top: 10px;
+    margin-top: 12px;
     color: green;
+    font-weight: 500;
 }

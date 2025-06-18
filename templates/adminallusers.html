@@ -10,11 +10,13 @@
 
 <body>
     <nav>
-        <button id="back-button" onclick="location.href='adminindex'">Back</button>
+        <a href="{{ url_for('adminindex') }}">
+            <button id="back-button">Back</button>
+        </a>
     </nav>
 
     <div class="container">
-        <h1>MessTraack All Users</h1>
+        <h1>MessTrack All Users</h1>
         <table id="userTable">
             <thead>
                 <tr>
@@ -24,6 +26,7 @@
                     <th>Email</th>
                     <th>Academic Branch</th>
                     <th>Academic Year</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,24 +38,21 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.academic_branch }}</td>
                     <td>{{ user.academic_year }}</td>
+                    <td>
+                        <button class="delete-btn" onclick="deleteUser('{{ user._id }}')">Delete</button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-
-
     </div>
+
     <div class="button-group">
         <button class="download-btn" onclick="downloadPDF()">Download as PDF</button>
     </div>
 
-    <!-- jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-    <!-- jsPDF AutoTable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-
-    <!-- Your custom JS -->
     <script src="{{ url_for('static', filename='adminallusers.js') }}"></script>
 </body>
 

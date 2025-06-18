@@ -1,27 +1,23 @@
 # type: ignore
-from flask import Flask, render_template, request, session, redirect, url_for, flash
+from flask import Flask, render_template, request, session, redirect, url_for, flash, jsonify, send_file
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
-from datetime import date
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField
 from wtforms.validators import InputRequired, Email, ValidationError
-from werkzeug.security import check_password_hash
-from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from flask_mail import Mail
-from bson import ObjectId
-from datetime import datetime, timedelta
-from functools import wraps
-from bson import ObjectId
-from flask import session, jsonify
-from flask import session, redirect, url_for, flash
 from flask_bcrypt import Bcrypt
 from flask_pymongo import PyMongo
-from bson.objectid import ObjectId 
-from flask import send_file
+from bson import ObjectId
 from io import BytesIO
 from reportlab.pdfgen import canvas
 import random, string
+from wtforms.validators import InputRequired, Email, Length, ValidationError
 import json
+from datetime import date, datetime, timedelta  # Consolidated datetime imports
+from functools import wraps  # Consolidated functools imports
+from bson.objectid import ObjectId  # Duplicate import removed
+
 
 # Load config
 with open('config.json', 'r') as c:
@@ -134,7 +130,6 @@ def login():
             session['captcha_text'] = generate_captcha()
 
     return render_template('login.html', form=form, captcha=session['captcha_text'])
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -371,18 +366,14 @@ def leave():
         }
 
         mongo.db.leave.insert_one(leave_data)
-        return redirect(url_for('leave_success'))
+        return redirect(url_for('leavesuccess'))
 
     return render_template("leave.html", current_date=date.today().strftime("%d-%m-%Y"),
                            student_name='', student_class='', room_no='',
                            student_contact='', parent_contact='')
-
-@app.route('/leave-success')
-def leave_success():
-    return """
-    <h2>Leave application submitted successfully!</h2>
-    <p><a href='/leave'>Submit another</a></p>
-    """
+@app.route('/leavesuccess')
+def leavesuccess():
+    return render_template('leavesuccess.html')
 
 
 
@@ -512,6 +503,16 @@ def admincontact():
 def adminallusers():
     users = mongo.db.users.find()
     return render_template('adminallusers.html', users=users)
+
+
+
+@app.route('/delete_user/<user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    result = mongo.db.users.delete_one({"_id": ObjectId(user_id)})
+    if result.deleted_count == 1:
+        return jsonify({"success": True}), 200
+    else:
+        return jsonify({"error": "User not found"}), 404
 
 
 

@@ -1,9 +1,71 @@
-/* Back button style */
+/* Reset & Base Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    color: #333;
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+/* Container */
+.container {
+    margin: 40px auto;
+    padding: 20px;
+    max-width: 1000px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation Bar */
+.nav {
+    padding: 15px 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background-color: transparent;
+}
+
+.nav .btn,
+.nav .back-btn {
+    background-color: gray;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav .btn:hover,
+.nav .back-btn:hover {
+    background-color: #6c4bbb;
+    color: white;
+}
+
+/* Fixed Back Button */
+.back-button,
 .back-btn {
     position: fixed;
     top: 20px;
     right: 20px;
-    background-color: #2f3640;
+    background-color: gray;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -15,22 +77,12 @@
     z-index: 1000;
 }
 
-h1 {
-    text-align: center !important;
-    margin-top: 40px;
-    /* optional spacing */
-    margin-bottom: 30px;
-    color: #2f3640;
-    font-weight: 700;
-    font-size: 2.5rem;
-}
-
-
+.back-button:hover,
 .back-btn:hover {
-    background-color: #444b54;
+    background-color: #6c4bbb;
 }
 
-/* Form container and input */
+/* Form Styling */
 form#dateForm {
     text-align: center;
     margin-bottom: 25px;
@@ -40,7 +92,7 @@ form#dateForm {
 form#dateForm label {
     font-weight: 600;
     margin-right: 10px;
-    color: #2f3640;
+    color: #333;
 }
 
 form#dateForm input[type="date"] {
@@ -48,19 +100,19 @@ form#dateForm input[type="date"] {
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    transition: border-color 0.3s ease;
     outline: none;
+    transition: border-color 0.3s ease;
 }
 
 form#dateForm input[type="date"]:focus {
-    border-color: #2f3640;
+    border-color: #6c4bbb;
 }
 
 form#dateForm button {
     margin-left: 12px;
     padding: 9px 18px;
     font-size: 16px;
-    background-color: #2f3640;
+    background-color: #6c4bbb;
     color: white;
     border: none;
     border-radius: 5px;
@@ -69,67 +121,111 @@ form#dateForm button {
 }
 
 form#dateForm button:hover {
-    background-color: #444b54;
+    background-color: #543d9d;
 }
 
-/* Info message styling */
-.info-msg {
-    text-align: center;
-    color: #555;
-    font-style: italic;
-    margin-bottom: 20px;
-}
-
-/* Loading text styling */
+/* Info and Loading */
+.info-msg,
 .loading {
     text-align: center;
-    font-weight: bold;
-    font-size: 18px;
-    color: #2f3640;
     margin-bottom: 20px;
 }
 
-/* Table style improvements */
+.info-msg {
+    color: #555;
+    font-style: italic;
+}
+
+.loading {
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Table Styling */
 table {
     width: 90%;
     margin: 0 auto 40px;
     border-collapse: collapse;
-    background-color: #fff;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
     border-radius: 8px;
     overflow: hidden;
+}
+
+thead {
+    background-color: #8d61d4;
+    color: white;
 }
 
 th,
 td {
     padding: 14px 18px;
-    border-bottom: 1px solid #ddd;
     text-align: center;
-    font-size: 16px;
+    font-size: 15px;
     color: #2f3640;
+    border-bottom: 1px solid #ccc;
 }
 
-th {
-    background-color: #2f3640;
-    color: #fff;
-    font-weight: 700;
+tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Status Colors */
+.paid,
 .present {
     color: green;
     font-weight: 700;
 }
 
+.not-paid,
 .absent {
     color: red;
     font-weight: 700;
 }
 
-tr:hover {
-    background-color: #f1f2f6;
+/* Summary Box */
+.summary-box {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 20px 0;
 }
 
-/* Responsive: smaller screens */
+.summary-box .present {
+    color: green;
+}
+
+.summary-box .absent {
+    color: red;
+}
+
+/* Download Button */
+.download-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#downloadPDF {
+    background-color: blueviolet;
+    color: white;
+    padding: 10px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#downloadPDF:hover {
+    background-color: blueviolet;
+}
+
+/* Responsive Table */
 @media (max-width: 600px) {
 
     table,
@@ -159,7 +255,6 @@ tr:hover {
         padding-left: 50%;
         text-align: left;
         font-size: 14px;
-        color: #2f3640;
     }
 
     td:before {
@@ -182,46 +277,10 @@ tr:hover {
     }
 
     td:nth-of-type(3):before {
-        content: "Email";
+        content: "Payment Status";
     }
 
     td:nth-of-type(4):before {
-        content: "Status";
+        content: "Month";
     }
-}
-
-/* Attendance summary styling */
-.summary-box {
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    margin: 20px 0;
-}
-
-.summary-box .present {
-    color: green;
-}
-
-.summary-box .absent {
-    color: red;
-}
-
-.download-container {
-    text-align: center;
-    margin-top: 20px;
-}
-
-#downloadPDF {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 25px;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#downloadPDF:hover {
-    background-color: #0056b3;
 }

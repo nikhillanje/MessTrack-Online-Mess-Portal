@@ -1,65 +1,90 @@
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 40px;
-            background-color: #f9f9f9;
-            margin: 0;
-        }
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        .container {
-            position: relative;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            padding: 30px 40px 40px 40px;
-            width: 60%;
-            margin: auto;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+/* Page Background */
+body {
+    background: linear-gradient(135deg, #ae91db, #ab9c9c);
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-y: auto;
+    text-align: center;
+}
 
-        .logo {
-            width: 120px;
-            margin-bottom: 20px;
-        }
+/* Main Container */
+.container {
+    position: relative;
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
 
-        h2,
-        h3,
-        p {
-            margin: 10px 0;
-        }
+/* Logo */
+.logo {
+    width: 120px;
+    margin-bottom: 20px;
+}
 
-        .button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background: green;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
+/* Headings and Paragraphs */
+h2,
+h3,
+p {
+    margin: 10px 0;
+    color: #333;
+}
 
-        .button:hover {
-            background: #006400;
-            /* darker green on hover */
-        }
+/* Buttons */
+.button {
+    padding: 14px 20px;
+    font-size: 17px;
+    font-weight: 600;
+    background: blueviolet;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
 
-        /* Back button styling */
-        .back-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 8px 14px;
-            font-size: 14px;
-            background-color: #555;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
+.button:hover {
+    background: linear-gradient(135deg, #6a1bd9, #e141b4);
+    transform: scale(1.03);
+}
 
-        .back-button:hover {
-            background-color: #333;
-        }
+/* Back Button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 14px;
+    background-color: #6c757d;
+    color: #ffffff;
+    padding: 8px 14px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        padding: 30px 20px;
+    }
+}

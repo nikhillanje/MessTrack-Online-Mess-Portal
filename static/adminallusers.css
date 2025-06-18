@@ -1,4 +1,4 @@
-/* Reset and basic font */
+/* Reset and base styles */
 * {
     margin: 0;
     padding: 0;
@@ -10,7 +10,6 @@ body {
     background: linear-gradient(135deg, #ae91db, #ab9c9c);
     padding: 20px;
     min-height: 100vh;
-    /* removed flex centering */
 }
 
 .container {
@@ -22,7 +21,6 @@ body {
     max-width: 1200px;
     text-align: center;
     margin: 20px auto 40px auto;
-    /* top margin 20px, centered horizontally */
 }
 
 .container h1 {
@@ -65,8 +63,6 @@ tr:hover td {
     margin-top: 20px;
 }
 
-
-/* Common button style for back and download */
 button,
 #back-button {
     padding: 12px 20px;
@@ -85,11 +81,25 @@ button:hover,
     background-color: #5e20c6;
 }
 
-/* Back button fixed top-right */
 #back-button {
     position: fixed;
     top: 10px;
     right: 10px;
     z-index: 1000;
-    /* same style as other buttons applied above */
+}
+
+.delete-btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background-color: #ff4d4d;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #cc0000;
 }

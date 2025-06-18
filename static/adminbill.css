@@ -1,38 +1,83 @@
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f7f8;
-    margin: 40px;
+/* Reset & Base Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+
+/* Navigation Bar */
+.nav {
+    padding: 15px 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background-color: transparent;
+}
+
+.nav .btn,
+.nav .back-btn {
+    background-color: gray;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav .btn:hover,
+.nav .back-btn:hover {
+    background-color: #6c4bbb;
+    color: white;
+}
+
+/* Heading */
 h1 {
     text-align: center;
     color: #333;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 
+/* Table Layout */
 table {
-    margin: auto;
+    width: 90%;
+    margin: 0 auto 40px;
     border-collapse: collapse;
-    width: 80%;
     background: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+thead {
+    background-color: #8d61d4;
+    color: white;
 }
 
 th,
 td {
-    border: 1px solid #ddd;
     padding: 12px 20px;
     text-align: left;
-}
-
-th {
-    background-color: #007bff;
-    color: white;
+    font-size: 15px;
+    border-bottom: 1px solid #ccc;
 }
 
 tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Payment Status Styling */
 .paid {
     color: green;
     font-weight: bold;
@@ -43,36 +88,21 @@ tr:nth-child(even) {
     font-weight: bold;
 }
 
-.nav {
-    position: relative;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
 
-.nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    margin-left: 10px;
-}
+    table {
+        width: 100%;
+        font-size: 14px;
+    }
 
-.nav a:hover {
-    color: #cce5ff;
-}
-
-.back-btn,
-.btn {
-    background-color: #007bff;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.back-btn:hover,
-.btn:hover {
-    background-color: #0056b3;
+    th,
+    td {
+        padding: 10px;
+    }
 }

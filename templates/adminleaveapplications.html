@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <a href="{{ url_for('adminindex') }}" class="back-button">Back</a>
     <div class="form-container">
         <h2>Leave Application MessTrack</h2>
 
@@ -28,8 +29,6 @@
         <p>Parent's Contact No.: {{ leave_application.parent_contact }}.</p>
 
         <p>Parent's Consent: {{ leave_application.parent_consent }}.</p>
-
-        <p><a href="{{ url_for('adminleave') }}">Back to list</a></p>
         <button id="downloadPdfBtn">Download as PDF</button>
 
     </div>

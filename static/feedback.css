@@ -1,93 +1,146 @@
-/* Background & Fonts */
-body {
-    background: linear-gradient(135deg, #ae91db, #ab9c9c);
+/* Reset & Base Styles */
+* {
     margin: 0;
     padding: 0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Feedback Form (Transparent, Wider, No White Box) */
+/* Page Background */
+body {
+    background: linear-gradient(135deg, #ae91db, #ab9c9c);
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-y: auto;
+}
+
+/* Feedback Form Container */
 .feedback-form {
-    width: 100%;
-    max-width: 640px;
-    /* Slightly increased width */
+    background-color: #e8e0e0;
     padding: 40px 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 /* Heading */
 .feedback-form h2 {
-    font-size: 28px;
-    color: #fff;
+    font-size: 24px;
+    color: #34568B;
     margin-bottom: 30px;
-    text-align: center;
+    font-weight: 600;
 }
 
-/* Label Styling */
+/* Form Row */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+/* Input Pair */
+.input-pair {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    text-align: left;
+}
+
+/* Labels */
 .feedback-form label {
-    display: block;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
+    color: #333;
     font-weight: 500;
-    color: #fff;
 }
 
-/* Input & Textarea Styling */
+/* Inputs & Textarea */
 .feedback-form input[type="text"],
 .feedback-form input[type="email"],
 .feedback-form textarea {
     width: 100%;
     padding: 12px;
-    font-size: 15px;
+    font-size: 16px;
     border-radius: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    background-color: rgba(230, 225, 225, 0.95);
-    /* Light translucent input background */
-    transition: 0.3s ease;
+    border: 1px solid #ddd;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
+    transition: border 0.3s, box-shadow 0.3s;
+    resize: vertical;
 }
 
 .feedback-form input:focus,
 .feedback-form textarea:focus {
     border-color: #7b2ff7;
-    outline: none;
     box-shadow: 0 0 4px rgba(123, 47, 247, 0.5);
+    outline: none;
 }
 
 /* Submit Button */
-.btn-custom {
+.feedback-form .submit-button {
     width: 100%;
     padding: 14px;
     font-size: 17px;
     font-weight: 600;
     border-radius: 12px;
-    background-color: #ff6f61;
-    /* Bold Coral */
-    color: #fff;
+    background-color: #6a1bd9;
+    color: white;
     border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.btn-custom:hover {
-    background-color: #e64a3c;
-    /* Slightly darker on hover */
-    transform: scale(1.03);
-}
-
-/* Back Button */
-.back-button {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 32px;
-    font-weight: bold;
-    color: #ffffff;
-    text-decoration: none;
-    background: none;
-    border: none;
-    box-shadow: none;
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.feedback-form .submit-button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 16px rgba(123, 47, 247, 0.4);
+    background: linear-gradient(135deg, #6a1bd9, #e141b4);
+}
+
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 999;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 5px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .input-pair {
+        flex: 1 1 100%;
+    }
+
+    .feedback-form {
+        padding: 30px 20px;
+    }
 }
