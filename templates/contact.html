@@ -24,15 +24,17 @@
         <!-- Name -->
         <div class="mb-3">
             <label for="name" class="form-label">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required />
-            <div class="invalid-feedback">Enter valid Name</div>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required
+                pattern="[A-Za-z\s]+" />
+            <div class="invalid-feedback">Enter valid Name (letters only)</div>
         </div>
 
-        <!-- Email -->
+        <!-- Mobile Number -->
         <div class="mb-3">
-            <label for="email" class="form-label">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required />
-            <div class="invalid-feedback">Enter valid Email</div>
+            <label for="mobile" class="form-label">Mobile Number:</label>
+            <input type="tel" class="form-control" id="mobile" name="mobile"
+                placeholder="Enter your 10-digit mobile number" required maxlength="10" pattern="\d{10}" />
+            <div class="invalid-feedback">Enter valid 10-digit Mobile Number</div>
         </div>
 
         <!-- Query -->
@@ -40,11 +42,13 @@
             <label for="query" class="form-label">Query:</label>
             <textarea class="form-control" id="query" name="query" rows="5" placeholder="Your query..."
                 required></textarea>
-            <div class="invalid-feedback">Write query here</div>
+            <div class="invalid-feedback">Write your query here</div>
         </div>
 
         <!-- Submit -->
-        <button type="submit" class="btn-custom w-50">Submit Query</button>
+        <div class="text-center">
+            <button type="submit" class="btn-custom w-50">Submit Query</button>
+        </div>
     </form>
 
     <script src="{{ url_for('static', filename='contact.js') }}"></script>

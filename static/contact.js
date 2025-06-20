@@ -15,19 +15,15 @@
 const nameInput = document.getElementById("name");
 const nameError = nameInput.nextElementSibling;
 
-// Block number input and show error
 nameInput.addEventListener("keydown", function (event) {
     const key = event.key;
     if (!isNaN(key) && key !== " ") {
         event.preventDefault();
-
-        // Show error when number is attempted
         nameInput.classList.add("is-invalid");
         nameError.style.display = "block";
     }
 });
 
-// Validate on input (typing or paste)
 nameInput.addEventListener("input", function () {
     const nameValue = nameInput.value.trim();
     const nameRegex = /^[A-Za-z\s]*$/;
@@ -41,19 +37,27 @@ nameInput.addEventListener("input", function () {
     }
 });
 
-// EMAIL FIELD VALIDATION
-const emailInput = document.getElementById("email");
-const emailError = emailInput.nextElementSibling;
+// MOBILE NUMBER VALIDATION
+const mobileInput = document.getElementById("mobile");
+const mobileError = mobileInput.nextElementSibling;
 
-emailInput.addEventListener("input", function () {
-    const emailValue = emailInput.value.trim();
-    const emailRegex = /^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+mobileInput.addEventListener("input", function () {
+    const mobileValue = mobileInput.value.trim();
+    const mobileRegex = /^\d{10}$/;
 
-    if (emailRegex.test(emailValue) || emailValue === "") {
-        emailInput.classList.remove("is-invalid");
-        emailError.style.display = "none";
+    if (mobileRegex.test(mobileValue)) {
+        mobileInput.classList.remove("is-invalid");
+        mobileError.style.display = "none";
     } else {
-        emailInput.classList.add("is-invalid");
-        emailError.style.display = "block";
+        mobileInput.classList.add("is-invalid");
+        mobileError.style.display = "block";
+    }
+});
+
+// (Optional) Block non-numeric input
+mobileInput.addEventListener("keydown", function (event) {
+    const allowedKeys = ["Backspace", "ArrowLeft", "ArrowRight", "Tab"];
+    if (!/[0-9]/.test(event.key) && !allowedKeys.includes(event.key)) {
+        event.preventDefault();
     }
 });

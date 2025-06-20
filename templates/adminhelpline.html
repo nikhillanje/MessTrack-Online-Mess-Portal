@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='adminhelpline.css') }}">
+    <title>Set Helpline Number</title>
+</head>
+
+<body>
+    <a href="{{ url_for('adminindex') }}" class="back-button">Back</a>
+    <h2>Enter 10-digit Helpline Number</h2>
+    <form name="helplineForm" method="POST" onsubmit="return validateForm()">
+        <input type="text" name="helpline" maxlength="10" placeholder="Enter 10-digit number" required>
+        <button type="submit">Set</button>
+    </form>
+
+    {% if message %}
+    <p style="color: green;">{{ message }}</p>
+    {% endif %}
+    <script src="{{ url_for('static', filename='adminhelpline.js') }}"></script>
+</body>
+
+</html>

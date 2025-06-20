@@ -21,6 +21,7 @@
                 <div class="input-pair">
                     <label for="email">Email-ID</label>
                     {{ form.email(id="email", placeholder="Enter your email", class="input-field", required=True) }}
+                    <p class="error-message" style="display: none;"></p>
                 </div>
             </div>
 
@@ -43,25 +44,44 @@
             <div class="form-row">
                 <div class="input-pair">
                     <label for="academic_branch">Academic Branch</label>
-                    {{ form.academic_branch(id="academic_branch", class="input-field", placeholder="Academic Branch",
-                    required=True) }}
+                    <select id="academic_branch" name="academic_branch" class="input-field" required>
+                        <option value="" disabled selected>Select Branch</option>
+                        <option value="CSE">Computer Science Engineering</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="ECE">Electronics and Communication</option>
+                        <option value="EEE">Electrical and Electronics</option>
+                        <option value="ME">Mechanical Engineering</option>
+                        <option value="CE">Civil Engineering</option>
+                        <option value="AI">Artificial Intelligence</option>
+                        <option value="DS">Data Science</option>
+                        <option value="CSBS">Computer Science & Business Systems</option>
+                    </select>
                 </div>
+
                 <div class="input-pair">
                     <label for="academic_year">Academic Year</label>
-                    {{ form.academic_year(id="academic_year", class="input-field", placeholder="Academic Year",
-                    required=True) }}
+                    <select id="academic_year" name="academic_year" class="input-field" required>
+                        <option value="" disabled selected>Select Year</option>
+                        <option value="1">First Year</option>
+                        <option value="2">Second Year</option>
+                        <option value="3">Third Year</option>
+                        <option value="4">Fourth Year</option>
+                    </select>
                 </div>
             </div>
+
 
             <div class="form-row">
                 <div class="input-pair">
                     <label for="username">Username</label>
                     {{ form.username(id="username", placeholder="Enter username", class="input-field", required=True) }}
+                    <p class="error-message" style="display: none;"></p>
                 </div>
                 <div class="input-pair">
                     <label for="password">Password</label>
                     {{ form.password(id="password", placeholder="Enter password", class="input-field", required=True,
                     autocomplete="new-password") }}
+                    <p class="error-message" style="display: none;"></p>
                 </div>
             </div>
 

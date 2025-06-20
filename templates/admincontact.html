@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Email</th>
+                    <th>Mobile</th>
                     <th>Query</th>
                 </tr>
             </thead>
@@ -23,7 +23,7 @@
                 {% for item in contacts %}
                 <tr>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.email }}</td>
+                    <td>{{ item.number }}</td>
                     <td>{{ item.query }}</td>
                 </tr>
                 {% endfor %}

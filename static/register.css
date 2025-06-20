@@ -208,3 +208,12 @@ body {
     background-color: #66bb6a;
     color: black;
 }
+
+
+.input-field.invalid {
+    border-color: red;
+}
+
+.input-field:valid {
+    border-color: green;
+}

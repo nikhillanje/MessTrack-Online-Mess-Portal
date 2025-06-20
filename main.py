@@ -17,6 +17,8 @@ import json
 from datetime import date, datetime, timedelta  # Consolidated datetime imports
 from functools import wraps  # Consolidated functools imports
 from bson.objectid import ObjectId  # Duplicate import removed
+from wtforms import StringField, PasswordField, SubmitField, SelectField
+from wtforms.validators import InputRequired, Email, ValidationError
 
 
 # Load config
@@ -63,7 +65,8 @@ class User(UserMixin):
         self.username = user_data['username']
         self.password = user_data['password']
 
-# Forms
+
+
 class RegisterForm(FlaskForm):
     name = StringField('Name', validators=[InputRequired()])
     username = StringField('Username', validators=[InputRequired()])
@@ -71,14 +74,38 @@ class RegisterForm(FlaskForm):
     address = StringField('Address', validators=[InputRequired()])
     mobile_no = StringField('Mobile No', validators=[InputRequired()])
     email = StringField('Email', validators=[InputRequired(), Email()])
-    academic_branch = StringField('Branch', validators=[InputRequired()])
-    academic_year = IntegerField('Year', validators=[InputRequired()])
-    gender = SelectField('Gender', choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')])
+    
+    academic_branch = SelectField('Academic Branch', choices=[
+        ('CSE', 'Computer Science Engineering'),
+        ('IT', 'Information Technology'),
+        ('ECE', 'Electronics and Communication'),
+        ('EEE', 'Electrical and Electronics'),
+        ('ME', 'Mechanical Engineering'),
+        ('CE', 'Civil Engineering'),
+        ('AI', 'Artificial Intelligence'),
+        ('DS', 'Data Science'),
+        ('CSBS', 'Computer Science & Business Systems')
+    ], validators=[InputRequired()])
+
+    academic_year = SelectField('Academic Year', choices=[
+        ('1', 'First Year'),
+        ('2', 'Second Year'),
+        ('3', 'Third Year'),
+        ('4', 'Fourth Year')
+    ], validators=[InputRequired()])
+
+    gender = SelectField('Gender', choices=[
+        ('Male', 'Male'), 
+        ('Female', 'Female'), 
+        ('Other', 'Other')
+    ])
+    
     submit = SubmitField('Register')
 
     def validate_username(self, username):
         if mongo.db.users.find_one({'username': username.data}):
             raise ValidationError('Username already exists.')
+
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired()])
@@ -96,7 +123,9 @@ def generate_captcha(length=6):
 # Students
 @app.route("/")
 def home():
-    return render_template("home.html")
+    latest_helpline = mongo.db.helpline.find_one(sort=[('_id', -1)])
+    helpline = latest_helpline['number'] if latest_helpline else "Not Set"
+    return render_template("home.html", helpline = helpline)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -143,8 +172,8 @@ def register():
             "address": form.address.data,
             "mobile_no": form.mobile_no.data,
             "email": form.email.data,
-            "academic_branch": form.academic_branch.data,
-            "academic_year": form.academic_year.data,
+            "academic_branch": form.academic_branch.data,  # dropdown value
+            "academic_year": form.academic_year.data,      # dropdown value
             "gender": form.gender.data,
             "status": "Pending"
         }
@@ -152,6 +181,7 @@ def register():
         flash('Registered successfully. Wait For Approval then login.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
 
 @app.route('/index')
 @login_required
@@ -194,27 +224,28 @@ def feedback():
 def contact():
     if request.method == 'POST':
         name = request.form['name']
-        email = request.form['email']
+        number = request.form['mobile']  # FIXED: should match input name in HTML
         query = request.form['query']
 
-        if not name or not email or not query:
+        if not name or not number or not query:
             return render_template('contact.html', params=params, error="Fill all fields.")
 
         mongo.db.contact.insert_one({
             "name": name,
-            "email": email,
+            "number": number,
             "query": query
         })
 
         mail.send_message(
             'New Query from MessTrack',
-            sender=email,
+            sender=number,
             recipients=[params['gmail_user']],
-            body=f"Query from {name}:\n\n{query}\n\nEmail: {email}"
+            body=f"Query from: {name}\n\n Query Is: {query}\n\n Sender's Mobile Number: {number}"
         )
         return render_template('thankyou.html', params=params, success=2)
 
     return render_template('contact.html', params=params)
+
 
 @app.route("/thankyou")
 @login_required
@@ -499,10 +530,24 @@ def admincontact():
     contact_data = list(mongo.db.contact.find({}, {"_id": 0}))
     return render_template("admincontact.html", contacts=contact_data)
 
+
 @app.route('/adminallusers')
 def adminallusers():
     users = mongo.db.users.find()
     return render_template('adminallusers.html', users=users)
+
+
+@app.route("/adminhelpline", methods=["GET", "POST"])
+def adminhelpline():
+    if request.method == "POST":
+        number = request.form.get("helpline")  # <-- use "helpline" here
+        if number and len(number) == 10 and number.isdigit():
+            mongo.db.helpline.insert_one({"number": number})
+            return render_template("adminhelpline.html", message="Helpline number saved successfully!")
+        else:
+            return render_template("adminhelpline.html", message="Invalid number. Enter 10 digits only.")
+    return render_template("adminhelpline.html")
+
 
 
 
