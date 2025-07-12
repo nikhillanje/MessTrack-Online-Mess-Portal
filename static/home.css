@@ -9,115 +9,6 @@ body {
     color: black;
     min-height: 100vh;
     background-color: white;
-    /* Page background */
-}
-
-/* Navbar styles */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #8d61d4;
-    /* Purple navbar */
-    color: white;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-/* Navigation menu */
-.nav-menu {
-    list-style: none;
-    display: flex;
-}
-
-.nav-menu li {
-    position: relative;
-}
-
-.dropbtn {
-    color: white;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 20px;
-    margin-right: 20px;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #7b2ff7;
-    color: white;
-    min-width: 130px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    top: 100%;
-    border-radius: 4px;
-}
-
-.dropdown-content li {
-    padding: 10px;
-}
-
-.dropdown-content li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content li:hover {
-    background-color: transparent;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Welcome Section */
-.welcome {
-    text-align: center;
-    padding: 100px 20px;
-    background-color: white;
-    /* Explicitly white */
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: 50px;
-    min-height: calc(100vh - 100px);
-}
-
-.main-title {
-    font-size: 48px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    color: #07483a;
-}
-
-.info {
-    max-width: 600px;
-    margin: auto;
-    font-size: 16px;
-    line-height: 1.6;
-    opacity: 0.9;
-    color: #333;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', sans-serif;
-    color: black;
-    min-height: 100vh;
-    background-color: white;
-    /* Page background */
 }
 
 /* Navbar styles */
@@ -129,125 +20,25 @@ body {
     background-color: #7b2ff7;
     /* Purple navbar */
     color: white;
+    width: 100%;
 }
 
 .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 24px;
     font-weight: bold;
 }
 
-/* Navigation menu */
-.nav-menu {
-    list-style: none;
-    display: flex;
-}
-
-.nav-menu li {
-    position: relative;
-}
-
-.dropbtn {
-    color: white;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 20px;
-    margin-right: 20px;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #7b2ff7;
-    color: white;
-    min-width: 130px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    top: 100%;
-    border-radius: 4px;
-}
-
-.dropdown-content li {
-    padding: 10px;
-}
-
-.dropdown-content li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content li:hover {
-    background-color: transparent;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Welcome Section */
-.welcome {
-    text-align: center;
-    padding: 100px 20px;
-    background-color: white;
-    /* Explicitly white */
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: 50px;
-    min-height: calc(100vh - 100px);
-}
-
-.main-title {
-    font-size: 48px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    color: #07483a;
-}
-
-.info {
-    max-width: 600px;
-    margin: auto;
+.helpline-btn {
     font-size: 16px;
-    line-height: 1.6;
-    opacity: 0.9;
-    color: #333;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', sans-serif;
-    color: black;
-    min-height: 100vh;
-    background-color: white;
-    /* Page background */
-}
-
-/* Navbar styles */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    /* Or use 'center' if you want nav items below */
-    align-items: center;
-    padding: 10px 20px;
-}
-
-.logo {
-    margin: 0 auto;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-
-/* Navigation menu */
 .nav-menu {
     list-style: none;
     display: flex;
+    align-items: center;
 }
 
 .nav-menu li {
@@ -269,7 +60,7 @@ body {
     background-color: #7b2ff7;
     color: white;
     min-width: 130px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
     top: 100%;
     border-radius: 4px;
@@ -286,7 +77,7 @@ body {
 }
 
 .dropdown-content li:hover {
-    background-color: transparent;
+    background-color: #5e1bc9;
 }
 
 .dropdown:hover .dropdown-content {
@@ -298,115 +89,6 @@ body {
     text-align: center;
     padding: 100px 20px;
     background-color: white;
-    /* Explicitly white */
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: 50px;
-    min-height: calc(100vh - 100px);
-}
-
-.main-title {
-    font-size: 48px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    color: #07483a;
-}
-
-.info {
-    max-width: 600px;
-    margin: auto;
-    font-size: 16px;
-    line-height: 1.6;
-    opacity: 0.9;
-    color: #333;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', sans-serif;
-    color: black;
-    min-height: 100vh;
-    background-color: white;
-    /* Page background */
-}
-
-/* Navbar styles */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #7b2ff7;
-    /* Purple navbar */
-    color: white;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-/* Navigation menu */
-.nav-menu {
-    list-style: none;
-    display: flex;
-}
-
-.nav-menu li {
-    position: relative;
-}
-
-.dropbtn {
-    color: white;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 20px;
-    margin-right: 20px;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #7b2ff7;
-    color: white;
-    min-width: 130px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    top: 100%;
-    border-radius: 4px;
-}
-
-.dropdown-content li {
-    padding: 10px;
-}
-
-.dropdown-content li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content li:hover {
-    background-color: transparent;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Welcome Section */
-.welcome {
-    text-align: center;
-    padding: 100px 20px;
-    background-color: white;
-    /* Explicitly white */
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-top: 50px;

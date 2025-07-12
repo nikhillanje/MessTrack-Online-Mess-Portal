@@ -11,10 +11,19 @@
     <div class="container">
         <h2>Pay Your Mess Bill - {{ current_month }}</h2>
         <p>Total Amount: ₹{{ amount }}</p>
-        <form method="POST">
-            <button type="submit" class="button">Confirm Pay</button>
-        </form>
+
+        <!-- Embed Razorpay config in data attributes -->
+        <button id="rzp-button" class="button" data-amount="{{ amount }}" data-month="{{ current_month }}"
+            data-key="{{ key }}">
+            Confirm Pay
+        </button>
     </div>
+
+    <!-- Razorpay Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- Load your external JavaScript -->
+    <script src="{{ url_for('static', filename='pay.js') }}"></script>
 </body>
 
 </html>

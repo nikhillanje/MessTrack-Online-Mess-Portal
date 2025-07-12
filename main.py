@@ -19,7 +19,7 @@ from functools import wraps  # Consolidated functools imports
 from bson.objectid import ObjectId  # Duplicate import removed
 from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import InputRequired, Email, ValidationError
-
+import razorpay
 
 # Load config
 with open('config.json', 'r') as c:
@@ -116,6 +116,15 @@ class LoginForm(FlaskForm):
 # CAPTCHA generator
 def generate_captcha(length=6):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
+
+
+# Razorpay API Credentials
+RAZORPAY_KEY_ID = "rzp_test_Kl3qAEOwMqq1Wc"
+RAZORPAY_KEY_SECRET = "D8bR2DD3qB7ZhDbm5jUim0jY"
+
+
+# Razorpay client initialization
+client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
 
 
 
@@ -367,9 +376,63 @@ def pay():
         })
         return redirect('/index')
 
-
     bill = mongo.db.bill.find_one({'month': current_month})
-    return render_template('pay.html', amount=bill['amount'] if bill else 0, current_month=current_month)
+    return render_template(
+        'pay.html',
+        amount=bill['amount'] if bill else 0,
+        current_month=current_month,
+        key=RAZORPAY_KEY_ID  
+    )
+
+
+
+
+@app.route("/create_order", methods=["POST"])
+def create_order():
+    data = request.get_json()
+    amount = data.get("amount", 50000)  # default ₹500
+    order = client.order.create({
+        "amount": amount,
+        "currency": "INR",
+        "payment_capture": 1
+    })
+    return jsonify(order)
+
+
+@app.route("/verify_payment", methods=["POST"])
+def verify_payment():
+    data = request.get_json()
+    try:
+        client.utility.verify_payment_signature({
+            "razorpay_order_id": data["razorpay_order_id"],
+            "razorpay_payment_id": data["razorpay_payment_id"],
+            "razorpay_signature": data["razorpay_signature"]
+        })
+        return jsonify({"status": "success"})
+    except:
+        return jsonify({"status": "failed"}), 400
+
+
+@app.route("/payment_success")
+def payment_success():
+    if '_id' not in session:
+        return redirect('/login')
+
+    student_id = ObjectId(session['_id'])
+    current_month = datetime.now().strftime("%B %Y")
+
+    # Avoid duplicate entries
+    existing = mongo.db.payments.find_one({'student_id': student_id, 'month': current_month})
+    if not existing:
+        mongo.db.payments.insert_one({
+            'student_id': student_id,
+            'month': current_month,
+            'status': 'success',
+            'timestamp': datetime.now()
+        })
+
+    return redirect('/index')
+
 
 
 
